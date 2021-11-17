@@ -1,20 +1,42 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Home from '../views/Home.vue'
 
+const Home = () => import('../views/home/Home')
+const Details = () => import('../views/Details/MusicDetails')
+const Album = () => import('../views/Details/MusicAlbum')
+const Song = () => import('../views/Details/Song')
 const routes = [
+  { path: '/', redirect: '/home' }, // 重定向
   {
-    path: '/',
+    path: '/home',
     name: 'Home',
-    component: Home
+    component: Home,
+
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
+    path: '/playlist/:id',
+    name: 'Details',
+    component: Details,
+    meta: {
+      title: '欢迎使用'
+    }
+  },
+  {
+    path: '/album/:id',
+    name: 'Album',
+    component: Album,
+    meta: {
+      title: '专辑'
+    }
+  },
+  {
+    path: '/song/:name',
+    name: 'Song',
+    component: Song,
+    meta: {
+      title: '专辑'
+    }
+  },
+
 ]
 
 const router = createRouter({
