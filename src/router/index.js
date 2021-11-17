@@ -1,42 +1,26 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 const Home = () => import('../views/home/Home')
-const Details = () => import('../views/Details/MusicDetails')
-const Album = () => import('../views/Details/MusicAlbum')
-const Song = () => import('../views/Details/Song')
+const MyMusic = () => import('../views/mymusic/MyMusic')
 const routes = [
-  { path: '/', redirect: '/home' }, // 重定向
+  { path: '', redirect: '/home' }, // 重定向
   {
     path: '/home',
     name: 'Home',
     component: Home,
+    children: [
+      {
 
-  },
-  {
-    path: '/playlist/:id',
-    name: 'Details',
-    component: Details,
-    meta: {
-      title: '欢迎使用'
-    }
-  },
-  {
-    path: '/album/:id',
-    name: 'Album',
-    component: Album,
-    meta: {
-      title: '专辑'
-    }
-  },
-  {
-    path: '/song/:name',
-    name: 'Song',
-    component: Song,
-    meta: {
-      title: '专辑'
-    }
-  },
+        path: '/my',
+        name: 'MyMusic',
+        component: MyMusic,
+        meta: {
+          title: '欢迎使用'
 
+        }
+      }
+    ]
+  }
 ]
 
 const router = createRouter({

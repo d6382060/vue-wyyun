@@ -1,243 +1,147 @@
 <template>
-  <div class="common-layou">
-    <el-container>
-      <el-header> <tab-nav-bar /> </el-header>
-      <div class="red">
-        <el-row class="row" :gutter="0">
-          <el-col class="col" :span="3"
-            ><div class="grid-content bg-purple">推荐</div></el-col
-          >
-          <el-col class="col" :span="3"
-            ><div class="grid-content bg-purple">排行榜</div></el-col
-          >
-          <el-col class="col" :span="3"
-            ><div class="grid-content bg-purple">歌单</div></el-col
-          >
-          <el-col class="col" :span="3"
-            ><div class="grid-content bg-purple">主播电台</div></el-col
-          >
-          <el-col class="col" :span="3"
-            ><div class="grid-content bg-purple">歌手</div></el-col
-          >
-          <el-col class="col" :span="3"
-            ><div class="grid-content bg-purple">新碟上线</div></el-col
-          >
-        </el-row>
+  <div id="home">
+    <div class="tab-bar">
+      <home-nav
+        :profile="profile"
+        :logName="logName"
+        :isName="isName"
+        @login="login"
+      />
+    </div>
+    <sub-nav />
+    <!-- 轮播 -->
+    <div class="m">
+      <div :style="bcimg"></div>
+      <home-carousel class="home-car" />
+    </div>
+    <div class="list">
+      <div class="left">
+        <home-list title="热门推荐" :item="item" />
+        <home-list-item />
+        <home-list title="新碟上架" />
+        <home-roll />
+        <home-list title="榜单" />
+        <home-bill />
       </div>
-      <el-main>
-        <!-- 轮播 -->
-        <el-carousel arrow="always" indicator-position="outside">
-          <el-carousel-item v-for="item in bannerImg" :key="item">
-            <img :src="item.imageUrl" alt="" />
-          </el-carousel-item>
-        </el-carousel>
-        <!-- 卡片 -->
-        <el-card :body-style="{ padding: '0px' }" class="box-card">
-          <template #header>
-            <div class="card-header">
-              <span>热门推荐</span>
-              <el-button class="button" type="text">
-                <a href="">华语</a>
-              </el-button>
-              <el-button class="button" type="text">
-                <a href="">流行</a>
-              </el-button>
-              <el-button class="button" type="text">
-                <a href="">摇滚</a>
-              </el-button>
-              <el-button class="button" type="text">
-                <a href="">民谣</a>
-              </el-button>
-              <el-button class="button" type="text">
-                <a href="">电子</a>
-              </el-button>
-              <el-button type="text"> 更多 </el-button>
-            </div>
-          </template>
-          <div>
-            <el-row>
-              <el-col
-                @click="PlaylistDetails(o)"
-                class="imgBox"
-                :span="5"
-                v-for="(o, index) in musicList"
-                :key="o"
-                :offset="index > 0 ? 2 : 0"
-              >
-                <img :src="o.picUrl" class="image" />
-                <div style="padding: 0px">
-                  <span class="names"
-                    ><a href="javascript:;">{{ o.name }}</a></span
-                  >
-                </div>
-              </el-col>
-            </el-row>
-          </div>
-          <div class="newCd">
-            <div class="title">新碟上架</div>
-            <div>
-              <el-row>
-                <el-col
-                  @click="jumpAlbum(o)"
-                  class="imgBox"
-                  :span="5"
-                  v-for="(o, index) in newCdlist"
-                  :key="o"
-                  :offset="index > 0 ? 2 : 0"
-                >
-                  <img :src="o.blurPicUrl" class="image" />
-                  <div style="padding: 0px">
-                    <span class="names"
-                      ><a href="javascript:;">{{ o.name }}</a></span
-                    >
-                  </div>
-                </el-col>
-              </el-row>
-            </div>
-          </div>
-        </el-card>
-      </el-main>
-    </el-container>
+      <div class="right">
+        <home-right-item />
+      </div>
+    </div>
+    <div class="home-login">
+      <!-- 登录 -->
+      <home-login
+        @loginClick="loginClick"
+        @shutdown="shutdown"
+        :theLogin="theLogin"
+      />
+    </div>
   </div>
 </template>
 
 <script>
-import { useRouter } from 'vue-router';
-import store from '../../store/index'
-import { getNewCd, getMusicList, getmusic, getBannerImg } from '../../network/home'
-import TabNavBar from '../../components/content/navBar/TabNavBar.vue'
-import { onMounted, ref, reactive } from '@vue/runtime-core'
+import HomeCarousel from './ChildComps/HomeCarousel.vue'
+import HomeNav from './ChildComps/HomeNav.vue'
+import SubNav from './ChildComps/SubNav.vue'
+import { ref } from 'vue'
+import { phoneLogin } from '../../network/home'
+import HomeList from './ChildComps/HomeList.vue'
+import HomeListItem from './ChildComps/HomeListItem.vue'
+import HomeRoll from './ChildComps/HomeRoll.vue'
+import HomeBill from './ChildComps/HomeBill.vue'
+import HomeRightItem from './ChildComps/HomeRightItem.vue'
+import HomeLogin from './ChildComps/HomeLogin.vue'
 export default {
-  components: { TabNavBar },
-  name: 'Home',
+  components: { HomeNav, SubNav, HomeCarousel, HomeList, HomeListItem, HomeRoll, HomeBill, HomeRightItem, HomeLogin },
+  name: "Home",
   setup () {
-    const router = useRouter()
-    let name = ref('')
-    let musicName = ref({})
-    const getMusciName = () => {
-      getmusic(name.value).then(res => {
-        // console.log(res);
-      })
-    }
-    const dianji = () => {
-      name.value = store.state.musciNmae
-      getMusciName()
-      console.log(store.state.musciNmae);
-    }
-    // 轮播图
-    const bannerImg = ref([])
-    const banner = () => {
-      getBannerImg().then(res => {
-        bannerImg.value = res.banners
-      })
-    }
-
-    // 推荐歌单
-    // 歌单数据
-    let musicList = ref([])
-    getMusicList().then(res => {
-      // console.log(res);
-      musicList.value = res.result
-    })
-    // 点击进入歌单详情
-    const PlaylistDetails = (o) => {
-      console.log(o.id);
-      router.push({ path: `/playlist/${o.id}` })
-    }
-
-    //新碟上架 数据
-    const newCdlist = ref([])
-    getNewCd().then(res => {
-      let weekDatas = res.weekData.slice(0, 10)
-      newCdlist.value = weekDatas
-      console.log(weekDatas);
-    })
-    // 点击跳转
-    const jumpAlbum = (o) => {
-      console.log(o);
-      router.push({ path: `/album/${o.id}` })
-    }
-
-    onMounted(() => {
-      getMusciName()
-      banner()
+    let bcimg = ref({
+      backgroundImage: 'url(https://img2.baidu.com/it/u=1053855357,1766396589&fm=26&fmt=auto)',
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: 'center',
+      backgroundSize: 'cover',
+      filter: ' blur(7px)',
+      position: 'absolute',
+      top: '105px',
+      left: '0px',
+      right: '0px',
+      height: '300px'
 
     })
+
+    // 是否弹出
+    let theLogin = ref(false)
+    // 点击登录弹出登录框
+    const login = () => {
+      theLogin.value = !theLogin.value
+    }
+    // 点击关闭
+    const shutdown = () => {
+      theLogin.value = false
+    }
+
+
+    const item = ref(["华语", "流行", "摇滚", "民谣", "电子"])
+
+
+    // 登录成功显示昵称
+    let logName = ref('')
+    let isName = ref(true)
+    // 用户信息
+    const profile = ref()
+    // 点击登录
+    const loginClick = (isLoginsuccess, userinfo) => {
+      profile.value = userinfo
+
+      if (isLoginsuccess == true) {
+        sessionStorage.setItem('userImg', userinfo.profile.avatarUrl)
+        theLogin.value = false
+        isName.value = false
+        console.log('我是父组件的loginClick' + isLoginsuccess);
+      } else {
+        console.log('失败' + isLoginsuccess);
+      }
+
+
+    }
 
     return {
-      musicName,
-      jumpAlbum,
-      dianji,
-      PlaylistDetails,
-      newCdlist,
-      bannerImg,
-      musicList
+      bcimg,
+      shutdown,
+      profile,
+      item,
+      login,
+      theLogin,
+      loginClick,
+
+      isName,
+      logName
     }
   }
 }
 </script>
 
 <style scoped lang='scss'>
-.el-header {
-  background-color: #242424;
-  height: 70px;
-}
-.el-main {
-  background-color: skyblue;
-  height: 100vh;
-}
-.el-footer {
-  background-color: pink;
-}
-.red {
-  cursor: pointer;
-  color: #fff;
-  height: 34px;
-  background-color: #c20c0c;
-  text-align: center;
-}
-// .el-col {
-//   line-height: 34px;
-// }
-// .el-col:hover {
-//   border-radius: 15px;
-//   background-color: #a40011;
-// }
-.el-carousel {
-  position: relative;
-  left: 50%;
-  width: 730px;
-  transform: translateX(-50%);
-}
-.el-main {
-  padding-top: 0;
-}
-.el-card {
-  margin-top: -26px;
-}
-.card-header {
-  a {
-    padding-left: 5px;
-    margin: 10px;
-    text-align: center;
-    border-left: 1px solid red;
-  }
-}
+.m {
+  width: 100%;
+  height: 300px;
 
-.image {
-  width: 140px;
-  text-align: center;
-  cursor: pointer;
-  // margin-left: 28px;
+  // background-color: red;
 }
-.el-col-offset-2 {
-  margin-left: 0;
-}
-.newCd {
-  margin-top: 85px;
-  .title {
-    margin-bottom: 10px;
-    margin-left: 25px;
+.list {
+  display: flex;
+  justify-content: space-between;
+  width: 1100px;
+
+  margin: 0 auto;
+  .left {
+    width: 735px;
+    border: 1px solid #eee;
+    background-color: #fff;
+  }
+  .right {
+    border: 1px solid #eee;
+    border-left: none;
+    flex: 1;
   }
 }
 </style>

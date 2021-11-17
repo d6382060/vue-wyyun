@@ -2,10 +2,7 @@ import { createStore } from 'vuex'
 
 export default createStore({
   state: {
-    musciNmae: '',
-    laylistDetails: []
-
-
+    isCookie: document.cookie
   },
   mutations: {
   },

@@ -1,11 +1,10 @@
 <template>
-  <div>专辑页面</div>
+  <div>我的音乐</div>
 </template>
 
 <script>
 export default {
-  name: "MusicAlbum"
-
+  name: 'MyMusic'
 }
 </script>
 
