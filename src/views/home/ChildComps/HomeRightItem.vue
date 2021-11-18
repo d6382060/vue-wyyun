@@ -122,7 +122,6 @@ export default {
       text-align: center;
       margin-top: 10px;
       p {
-        margin-top: 10px;
         font-size: 14px;
       }
     }

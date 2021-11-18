@@ -21,9 +21,10 @@ export default {
         bannerLists.value = res.banners
       })
     }
+    bannerList()
 
     onMounted(() => {
-      bannerList()
+
     })
     return {
       bannerLists

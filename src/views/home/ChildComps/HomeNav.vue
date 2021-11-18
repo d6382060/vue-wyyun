@@ -10,21 +10,6 @@
    <div>我的音乐</div>
  </template>
   </tab-bar-item>
-    <tab-bar-item path="/friend">
- <template v-slot:item-text>
-   <div>朋友</div>
- </template>
-  </tab-bar-item>
-    <tab-bar-item path="/category">
- <template v-slot:item-text>
-   <div>商城</div>
- </template>
-  </tab-bar-item>
-    <tab-bar-item path="/category">
- <template v-slot:item-text>
-   <div>音乐人</div>
- </template>
-  </tab-bar-item>
     <tab-bar-item path="/download">
  <template v-slot:item-text>
    <div>下载客户端</div>
@@ -33,11 +18,6 @@
     <tab-bar-item>
  <template v-slot:item-text>
   <search/>
- </template>
-  </tab-bar-item>
-    <tab-bar-item path="/category">
- <template v-slot:item-text>
-   <div>创作者中心</div>
  </template>
   </tab-bar-item>
      <tab-bar-item @mouseout='showInfo = false' v-if="userInfoav && infoImg !=''">
@@ -68,7 +48,6 @@
 </template>
 
 <script>
-import { search } from '../../../network/home'
 import { useStore } from 'vuex'
 import { ref } from 'vue'
 import tabBar from '../../../components/common/tabbar/TabBar.vue'

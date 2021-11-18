@@ -1,7 +1,7 @@
 <template>
   <div class="list-item">
-    <div v-for="item in HotRecom" class="item">
-      <a href="javascript;:">
+    <div @click="toplaylist(item.id)" v-for="item in HotRecom" class="item">
+      <a href="javascript:;">
         <img :src="item.picUrl" :title="item.name" :alt="item.name"
       /></a>
       <div class="playInfo">
@@ -24,16 +24,24 @@
 <script>
 import { ref } from 'vue'
 import { personalized } from '../../../network/home'
+import { useRouter } from 'vue-router'
 export default {
   name: 'HomeListItem',
   setup () {
+    const router = useRouter()
     const HotRecom = ref([])
     personalized().then(res => {
       HotRecom.value = res.result
-    })
+    });
+    // 点击跳转歌单详情
+    const toplaylist = (id) => {
+      console.log(666);
+      router.push({ path: '/playlist/detail', query: { id } })
+    }
 
     return {
-      HotRecom
+      HotRecom,
+      toplaylist
     }
   }
 }

@@ -1,7 +1,39 @@
 <template>
   <div id="nav-w">
     <div class="m-subnav">
-      <div v-for="(item, index) in ItemArr">
+      <sub-nava>
+        <sub-nav-item path=/home>
+          <template v-slot:item-text>
+          推荐
+          </template>
+        </sub-nav-item>
+        <sub-nav-item>
+          <template v-slot:item-text>
+          排行榜
+          </template>
+        </sub-nav-item>
+        <sub-nav-item>
+          <template v-slot:item-text>
+            歌单
+          </template>
+        </sub-nav-item>
+        <sub-nav-item>
+          <template v-slot:item-text>
+           主播电台
+          </template>
+        </sub-nav-item>
+        <sub-nav-item>
+          <template v-slot:item-text>
+           歌手
+          </template>
+        </sub-nav-item>
+        <sub-nav-item>
+          <template v-slot:item-text>
+         新碟上架
+          </template>
+        </sub-nav-item>
+      </sub-nava>
+      <!-- <div v-for="(item, index) in ItemArr">
         <span
           :key="index"
           class="item"
@@ -9,29 +41,22 @@
           @click="navClick(index)"
           >{{ item }}</span
         >
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
 
 <script>
-import { reactive, ref, computed } from 'vue'
+import SubNava from '../../../components/common/SubNav/SubNava.vue'
+import SubNavItem from '../../../components/common/SubNav/SubNavItem.vue'
 export default {
+  components: { SubNava, SubNavItem },
 
   name: 'subnav',
   setup () {
-    const ItemArr = ref(['推荐', '排行榜', '歌单', '主播电台', '歌手', '新碟上架'])
-    let current = ref(0)
-
-    const navClick = (index) => {
-      current.value = index
-    }
 
 
     return {
-      current,
-      ItemArr,
-      navClick,
     }
   }
 }
@@ -50,16 +75,6 @@ export default {
     height: 35px;
     background-color: #c20c0c;
     border-bottom: 1px solid #a40011;
-    .item {
-      cursor: pointer;
-      display: inline-block;
-      height: 20px;
-      padding: 0 13px;
-      margin: 7px 17px 0;
-      line-height: 21px;
-      border-radius: 20px;
-      font-size: 14px;
-    }
     div {
       flex: 1;
       text-align: center;
@@ -67,11 +82,5 @@ export default {
       color: #fff;
     }
   }
-}
-.item:hover {
-  background-color: #9b0909;
-}
-.active {
-  background-color: #9b0909;
 }
 </style>
