@@ -7,7 +7,11 @@
       <div class="playInfo">
         <span class="playcount"
           ><i class="iconfont icon-24gl-headphones"></i
-          >{{ item.playCount }}</span
+          >{{
+            item.playCount > 100000
+              ? (item.playCount / 10000).toFixed() + "万"
+              : item.playCount
+          }}</span
         >
         <span class="playing"
           ><a href="javascript:;"
@@ -22,7 +26,7 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { personalized } from '../../../network/home'
 import { useRouter } from 'vue-router'
 export default {
@@ -30,7 +34,7 @@ export default {
   setup () {
     const router = useRouter()
     const HotRecom = ref([])
-    personalized().then(res => {
+    personalized(8).then(res => {
       HotRecom.value = res.result
     });
     // 点击跳转歌单详情

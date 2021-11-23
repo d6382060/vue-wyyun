@@ -86,7 +86,6 @@ export default {
     // 热搜歌曲
     const hotMusic = ref()
     searchHotDetail().then(res => {
-      console.log(res);
       hotMusic.value = res.data.slice(0, 10)
     })
 

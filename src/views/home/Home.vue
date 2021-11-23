@@ -20,27 +20,22 @@
     </div>
     <div class="home-login">
       <!-- 登录 -->
-      <home-login
-        @loginClick="loginClick"
-        @shutdown="shutdown"
-        :theLogin="theLogin"
-      />
     </div>
+    <play-bar />
   </div>
 </template>
 
 <script>
 import HomeCarousel from './ChildComps/HomeCarousel.vue'
 import { ref } from 'vue'
-import { phoneLogin } from '../../network/home'
 import HomeList from './ChildComps/HomeList.vue'
 import HomeListItem from './ChildComps/HomeListItem.vue'
 import HomeRoll from './ChildComps/HomeRoll.vue'
 import HomeBill from './ChildComps/HomeBill.vue'
 import HomeRightItem from './ChildComps/HomeRightItem.vue'
-import HomeLogin from './ChildComps/HomeLogin.vue'
+import PlayBar from '../../components/common/play-bar/playBar.vue'
 export default {
-  components: { HomeCarousel, HomeList, HomeListItem, HomeRoll, HomeBill, HomeRightItem, HomeLogin },
+  components: { HomeCarousel, HomeList, HomeListItem, HomeRoll, HomeBill, HomeRightItem, PlayBar },
   name: "Home",
   setup () {
     let bcimg = ref({
@@ -57,6 +52,7 @@ export default {
 
     })
     const item = ref(["华语", "流行", "摇滚", "民谣", "电子"])
+
 
     return {
       bcimg,
@@ -80,6 +76,7 @@ export default {
 
   margin: 0 auto;
   .left {
+    margin-bottom: 50px;
     width: 735px;
     border: 1px solid #eee;
     background-color: #fff;

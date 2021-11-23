@@ -2,10 +2,10 @@
   <div class="music-list">
     <div class="title">
       <h4>歌曲列表</h4>
-      <span>{{ tracks.length }}首歌</span>
+      <span>{{ ids.length }}首歌</span>
     </div>
     <div class="musci-table">
-      <el-table :data="tracks" stripe style="width: 100%">
+      <el-table :data="ids" stripe style="width: 100%">
         <el-table-column label="序号" type="index" width="50" />
         <el-table-column prop="name" label="歌曲" width="250">
           <template #default="scope">
@@ -16,76 +16,50 @@
         <el-table-column prop="al.name" label="专辑" />
       </el-table>
     </div>
-    <div class="btn">
-      <el-button @click="login" type="warning" round
-        >登录查看更多歌曲</el-button
-      >
-    </div>
     <play-bar :url="url" />
   </div>
 </template>
 
 <script>
 import { getSongUrl } from '../../../network/playlist'
-import { useStore } from 'vuex'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import playBar from '../../../components/common/play-bar/playBar.vue'
 export default {
   components: { playBar },
-  name: "PlayListMusicList",
+  name: "PlayListMusicListIsLogin",
   props: {
-    tracks: {
+    ids: {
       type: Array,
-      default () {
+      defaulat () {
         return []
       }
     }
   },
-  setup (props) {
-    const store = useStore()
 
-    const login = () => {
-      store.commit("islogDialog");
-    }
+  setup (props) {
+
 
     const url = ref()
     const playsong = async (id) => {
       console.log();
       let res = await getSongUrl(id);
       url.value = res.data[0].url;
+      isplay.value = true;
       console.log(url.value);
 
 
     }
 
     return {
-      login,
       playsong,
       url
     }
+
   }
 }
 </script>
 
 <style scoped lang='scss'>
-.music-list {
-  margin-top: 30px;
-}
-.title {
-  h4 {
-    display: inline-block;
-  }
-  & span {
-    margin-left: 15px;
-  }
-}
-.el-table {
-  cursor: pointer;
-}
-.el-button {
-  margin-top: 15px;
-  width: 100%;
-}
 :deep(.cell) {
   cursor: pointer;
 }

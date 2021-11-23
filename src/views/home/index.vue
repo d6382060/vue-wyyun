@@ -3,7 +3,6 @@
     <home-nav />
     <sub-nav />
   </div>
-
   <router-view />
 </template>
 
@@ -11,7 +10,7 @@
 import HomeNav from './ChildComps/HomeNav.vue'
 import SubNav from './ChildComps/SubNav.vue'
 export default {
-  components: { HomeNav, SubNav },
+  components: { HomeNav, SubNav, },
 
 }
 </script>

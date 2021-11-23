@@ -22,3 +22,23 @@ export function playlistSubScribers (id) {
   })
 }
 
+
+// 获取歌曲详情
+export function getSongDetail (ids) {
+  return request({
+    url: `/song/detail`,
+    params: {
+      ids: ids
+    },
+  })
+}
+
+
+// 获取音乐 url 播放音乐
+export function getSongUrl (songid) {
+  return request({
+    url: `/song/url?id=${songid}`
+  })
+}
+
+

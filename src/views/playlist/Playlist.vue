@@ -47,7 +47,9 @@
           </div>
         </div>
         <!-- 歌曲列表组件 -->
-        <play-list-music-list :tracks="detail.detail_tracks" />
+        <play-list-music-list-is-login v-if="islogin" :ids="loginList" />
+        <play-list-music-list v-else :tracks="detail.detail_tracks" />
+
         <!-- 评论 -->
         <play-list-comment :cid="id" />
       </div>
@@ -62,12 +64,13 @@
 <script>
 import { useRoute } from 'vue-router'
 import { ref, computed, onMounted, reactive } from 'vue';
-import { playlistDetail } from '../../network/playlist'
+import { playlistDetail, getSongDetail } from '../../network/playlist'
 import PlayListMusicList from './ChildComps/PlayListMusicList.vue';
 import PlayListComment from './ChildComps/PlayListComment.vue';
 import PlaylistRight from './ChildComps/PlaylistRight.vue';
+import PlayListMusicListIsLogin from './ChildComps/PlayListMusicListIsLogin.vue';
 export default {
-  components: { PlayListMusicList, PlayListComment, PlaylistRight },
+  components: { PlayListMusicList, PlayListComment, PlaylistRight, PlayListMusicListIsLogin },
   name: 'Playlist',
   setup (props) {
 
@@ -80,20 +83,34 @@ export default {
       detail_info: {},
       detail_tags: [],
       detail_user: {},
-      detail_tracks: []
+      detail_tracks: [],
 
     })
     // 获取歌单详细信息
     const getdetail = async () => {
-      let res = await playlistDetail(id.value)
+      let res = await playlistDetail(id.value);
+      detail['detail_trackIds'] = res.playlist.trackIds
       detail['detail_info'] = res.playlist
       detail['detail_tags'] = res.playlist.tags
       detail['detail_user'] = res.playlist.creator;
-      detail['detail_tracks'] = res.playlist.tracks
-      console.log(res);
+      detail['detail_tracks'] = res.playlist.tracks;
+      getLoginMusic(res.playlist.trackIds)
     }
     getdetail()
-    console.log(detail);
+    const loginList = ref([])
+    // 获取登录后的歌曲
+    const getLoginMusic = async (trackIds) => {
+      // 数据变为字符串
+      let strId = [];
+      trackIds.forEach(item => {
+        strId.push(item.id)
+      })
+      let res = await getSongDetail(strId.join(','))
+      loginList.value = res.songs;
+
+
+    }
+
     /// 时间戳转换为日期
     let createTime = computed(() => {
       let time = new Date(1625152129672);
@@ -103,14 +120,18 @@ export default {
       return year + "-" + mount + '-' + day;
     })
     onMounted(() => {
-
     })
 
+
+    // 获取登录状态
+    const islogin = ref(window.sessionStorage.getItem('isLogin'))
 
     return {
       createTime,
       detail,
-      id
+      id,
+      islogin,
+      loginList,
     }
   }
 }
@@ -133,10 +154,13 @@ export default {
       display: flex;
       height: 303px;
       .imgs {
-        width: 208px;
-        height: 208px;
-        background-color: #eee;
+        border: 1px solid #d5d5d5;
+        width: 215px;
+        height: 215px;
         img {
+          position: relative;
+          top: 2px;
+          left: 2px;
           width: 208px;
           height: 208px;
         }
@@ -187,7 +211,7 @@ export default {
   }
 }
 .r {
-  background-color: pink;
+  border-left: 1px solid #eee;
   width: 270px;
 }
 .btns {

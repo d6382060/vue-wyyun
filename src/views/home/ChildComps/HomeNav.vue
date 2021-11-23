@@ -20,31 +20,13 @@
   <search/>
  </template>
   </tab-bar-item>
-     <tab-bar-item @mouseout='showInfo = false' v-if="userInfoav && infoImg !=''">
- <template v-slot:item-text>
-   <div @mouseover.native="shouwInfo" class="avatarImg" >
-     <img :src="userInfoav" alt="">
-   </div>
+    <tab-bar-item >
+ <template v-slot:item-btn>
+<login/>
  </template> 
-  </tab-bar-item>
-    <tab-bar-item v-else @click="login">
- <template v-slot:item-text>
-   <div>登录</div>
- </template> 
-  </tab-bar-item>
+  </tab-bar-item>                     
 
 </tab-bar>
-<div v-if="showInfo" class="s" >
-  <ul >
-    <li><i class="iconfont icon-wode"></i><div>我的主页</div></li>
-    <li><i class="iconfont icon-xiaoxitongzhi"></i><div>我的消息</div></li>
-    <li><i class="iconfont icon-dengji"></i><div>我的等级</div></li>
-    <li><i class="iconfont icon-vip"></i><div>vip会员</div></li>
-    <li><i class="iconfont icon-gerenshezhi"></i><div>个人设置</div></li>
-    <li><i class="iconfont icon-shimingrenzheng"></i><div>实名认证</div></li>
-    <li><i class="iconfont icon-tuichu"></i><div>退出</div></li>
- </ul>
-</div>
 </template>
 
 <script>
@@ -53,50 +35,14 @@ import { ref } from 'vue'
 import tabBar from '../../../components/common/tabbar/TabBar.vue'
 import TabBarItem from '../../../components/common/tabbar/TabBarItem.vue'
 import Search from './search/Search.vue'
+import Login from '../../../components/common/login/Login.vue'
+
 export default {
-  components: { tabBar, TabBarItem, Search },
-  props: {
-    isName: {
-      type: Boolean,
-      defalut: true
-    },
-    logName: String,
-    profile: {
-      type: Object,
-      defalut () {
-        return {}
-      }
-    }
-  },
-  emits: {
-    login: null,
-  },
+  components: { tabBar, TabBarItem, Search, Login },
   name: 'TabNavBar',
   setup (props, { emit }) {
-    const login = () => {
-      emit('login')
-
-    }
-
-    const store = useStore()
-    let infoImg = ref(store.state.isCookie)
-    // 用户头像
-    const userInfoav = ref(sessionStorage.getItem('userImg'))
-    // 是否显示信息框
-    const showInfo = ref(false)
-    // 获得焦点
-    const shouwInfo = () => {
-
-      showInfo.value = true
-
-    }
 
     return {
-      login,
-      showInfo,
-      userInfoav,
-      infoImg,
-      shouwInfo
     }
   }
 }

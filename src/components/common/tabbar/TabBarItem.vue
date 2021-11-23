@@ -1,10 +1,10 @@
 <template>
-  <div class="tab-bar-item" @click="itemClick">
-    <div>
-      <slot name="item-icon"></slot>
+  <div class="tab-bar-item">
+    <div @click="itemClick" :style="active">
+      <slot name="item-text"></slot>
     </div>
     <div :style="active">
-      <slot name="item-text"></slot>
+      <slot name="item-btn"></slot>
     </div>
     <!-- <div v-else>
       <slot name="item-click"></slot>

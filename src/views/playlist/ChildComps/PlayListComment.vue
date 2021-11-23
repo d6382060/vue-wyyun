@@ -41,7 +41,6 @@ export default {
     playlistComment(iid.value).then(res => {
       CommentInfo.value = res.comments
     })
-    console.log(CommentInfo.value);
     return {
       CommentInfo
 

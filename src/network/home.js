@@ -6,29 +6,18 @@ export function phoneLogin (phone, pssw) {
     url: `/login/cellphone?phone=${phone}&password=${pssw}`,
   })
 }
-// 密码登录
-export function captchaLogin (phone, captcha) {
+
+// 获取用户详情
+export function userDateil (cid) {
   return request({
-    url: `/login/cellphone?phone=${phone}&captcha=${captcha}`,
+    url: `/user/detail?uid=${cid}`,
   })
 }
 
 
 
-// 验证码登录-获取验证码
-export function getCaptcha (phone) {
-  return request({
-    url: `/captcha/sent?phone=${phone}`,
-  })
-}
 
 
-// 验证码登录-验证码验证
-export function validationCaptcha (phone, captcha) {
-  return request({
-    url: `/captcha/verify?phone=${phone}&captcha=${captcha}`,
-  })
-}
 
 
 // 搜索
@@ -46,9 +35,9 @@ export function banner () {
 }
 
 // 热门歌单
-export function personalized () {
+export function personalized (num) {
   return request({
-    url: `/personalized?limit=8`,
+    url: `/personalized?limit=${num}`,
   })
 }
 
