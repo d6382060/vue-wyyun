@@ -21,7 +21,7 @@
     <div class="home-login">
       <!-- 登录 -->
     </div>
-    <play-bar />
+    <!-- <play-bar /> -->
   </div>
 </template>
 

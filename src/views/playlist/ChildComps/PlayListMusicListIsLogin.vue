@@ -9,19 +9,21 @@
         <el-table-column label="序号" type="index" width="50" />
         <el-table-column prop="name" label="歌曲" width="250">
           <template #default="scope">
-            <span @click="playsong(scope.row.id)">{{ scope.row.name }}</span>
+            <span @click="playsong(scope.row.id, scope.row)">{{
+              scope.row.name
+            }}</span>
           </template>
         </el-table-column>
         <el-table-column prop="ar[0].name" label="歌手" />
         <el-table-column prop="al.name" label="专辑" />
       </el-table>
     </div>
-    <play-bar :url="url" />
+    <play-bar :url="url" :play_list="play_list" />
   </div>
 </template>
 
 <script>
-import { getSongUrl } from '../../../network/playlist'
+import { getSongUrl, refreshLogin } from '../../../network/playlist'
 import { ref, computed } from 'vue'
 import playBar from '../../../components/common/play-bar/playBar.vue'
 export default {
@@ -37,22 +39,25 @@ export default {
   },
 
   setup (props) {
-
-
-    const url = ref()
-    const playsong = async (id) => {
-      console.log();
+    let url = ref([]);
+    let play_list = ref([])
+    const playsong = async (id, row) => {
       let res = await getSongUrl(id);
-      url.value = res.data[0].url;
-      isplay.value = true;
-      console.log(url.value);
 
-
+      // 创建播放对象
+      let playBoj = {
+        url: res.data[0].url,
+        singer: row.ar[0].name,
+        music_name: row.name,
+      }
+      url.value.unshift(res.data[0].url)
+      play_list.value.unshift(playBoj)
     }
 
     return {
       playsong,
-      url
+      url,
+      play_list
     }
 
   }

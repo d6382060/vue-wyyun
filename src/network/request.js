@@ -3,12 +3,14 @@ export function request (config) {
   // 1.创建axios 的实例
   const instance = axios.create({
     baseURL: 'http://localhost:3000/',
-    timeout: 5000
+    timeout: 5000,
+    withCredentials: true
   })
 
   // 2、axios的拦截器
   // 2.1  请求拦截的作用
   instance.interceptors.request.use(config => {
+
     return config
   }, err => {
     // console.log(err);

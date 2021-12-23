@@ -106,6 +106,7 @@ export default {
         strId.push(item.id)
       })
       let res = await getSongDetail(strId.join(','))
+      console.log(res);
       loginList.value = res.songs;
 
 

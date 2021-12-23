@@ -1,9 +1,5 @@
 <template>
   <div class="right-item">
-    <div class="login">
-      <p>登录网易云音乐，可以享受无限收藏的乐趣，并且无限同步到手机</p>
-      <button class="btn1"><span>用户登录</span></button>
-    </div>
     <div class="singer">
       <div class="title">
         <h4>入驻歌手</h4>

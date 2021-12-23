@@ -4,6 +4,8 @@ const Home = () => import('../views/home/Home')
 const MyMusic = () => import('../views/mymusic/MyMusic');
 const Playlist = () => import('../views/playlist/Playlist.vue')
 const Index = () => import('../views/home/index.vue')
+const PlaylistTable = () => import('../views/playlistTable/PlaylistTable.vue')
+const search = () => import('../views/search/Search.vue')
 const routes = [
   { path: '', redirect: '/home' }, // 重定向
   {
@@ -31,6 +33,22 @@ const routes = [
         path: '/playlist/detail',
         name: 'Playlist',
         component: Playlist,
+        meta: {
+          title: '欢迎使用'
+        }
+      },
+      {
+        path: '/playlist/table',
+        name: 'PlaylistTable',
+        component: PlaylistTable,
+        meta: {
+          title: '欢迎使用'
+        }
+      },
+      {
+        path: '/search',
+        name: 'search',
+        component: search,
         meta: {
           title: '欢迎使用'
         }

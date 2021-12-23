@@ -3,8 +3,7 @@
     <el-popover v-if="isLofins" placement="bottom" :width="400" trigger="click">
       <template #reference>
         <div class="user-img">
-          <img :src="getuserInfos.avatarUrl" alt="" />
-          <!-- <el-image :src="getuserInfos.avatarUrl"></el-image> -->
+          <img :src="avatr || getuserInfos.avatarUrl" alt="" />
         </div>
       </template>
       <div>sss</div>
@@ -81,14 +80,14 @@ export default {
     const ruleForm = ref(null)
     // 是否登录
     let isLofins = ref(window.sessionStorage.getItem('isLogin'));
-
-    // 获取用信息
-    const getuserInfos = ref(JSON.parse(window.sessionStorage.getItem('userInfo')));
+    // 头像
+    let avatr = ref()
     // 点击登录
     const submitForm = () => {
       ruleForm.value.validate(async (valid) => {
         if (valid) {
           const res = await phoneLogin(loginData.phone, loginData.pwd);
+          console.log(res);
           if (res.code !== 200) {
             ElMessage.error('账号输入错误')
 
@@ -98,18 +97,21 @@ export default {
             window.sessionStorage.setItem('cookie', res.cookie)
             window.sessionStorage.setItem('isLogin', true)
             centerDialogVisible.value = false;
+            // 头像
+            avatr.value = res.profile.avatarUrl
+            console.log(avatr.value);
             getuserInfos.value = JSON.parse(window.sessionStorage.getItem('userInfo'));
             isLofins.value = window.sessionStorage.getItem('isLogin')
-            setTimeout(() => {
-              location.reload();
-            }, 1000);
+            store.commit("islogDialog");
+            // setTimeout(() => {
+            //   location.reload();
+            // }, 1000);
 
           }
         }
       })
 
     }
-
     //传入ID获取用户信息
     const getuserInfo = async (uid) => {
       const res = await userDateil(uid);
@@ -120,7 +122,8 @@ export default {
       }
     }
 
-
+    // 获取用信息
+    const getuserInfos = ref(JSON.parse(window.sessionStorage.getItem('userInfo')));
 
 
     return {
@@ -133,6 +136,7 @@ export default {
       submitForm,
       isLofins,
       store,
+      avatr
 
 
 

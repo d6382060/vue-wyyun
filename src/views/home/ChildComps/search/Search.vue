@@ -8,6 +8,7 @@
           placeholder="请输入歌名、歌词、歌手或专辑"
           v-model="keyVal"
           @input="getListHandle"
+          @keyup.enter="tosearch"
           clearable
         >
         </el-input>
@@ -71,11 +72,13 @@
 
 <script>
 import { searchHotDetail, serach } from '../../../../network/home'
-import { ref, onMounted, reactive } from 'vue'
+import { ref, reactive } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 export default {
   name: 'search',
   setup () {
-
+    const router = useRouter()
+    const route = useRoute()
     let musicInfo = reactive({
       single: [], // 1 单曲
       album: [], // 10专辑
@@ -131,14 +134,23 @@ export default {
       }
 
     }
+    // 跳转
+    const tosearch = () => {
+      if (keyVal.value === '') {
+        return
+      }
 
+      router.push({ path: '/search', query: { name: keyVal.value } })
+
+    }
 
 
     return {
       hotMusic,
       keyVal,
       getListHandle,
-      musicInfo
+      musicInfo,
+      tosearch
     }
   }
 }

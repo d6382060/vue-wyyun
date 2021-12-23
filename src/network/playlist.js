@@ -1,9 +1,9 @@
 import { request } from './request'
 
 // 歌单详情
-export function playlistDetail (id) {
+export function playlistDetail (id, cookie) {
   return request({
-    url: `/playlist/detail?id=${id}`
+    url: `/playlist/detail?id=${id}`,
   })
 }
 
@@ -42,3 +42,9 @@ export function getSongUrl (songid) {
 }
 
 
+// 刷新登录
+export function refreshLogin () {
+  return request({
+    url: `/login/refresh`,
+  })
+}

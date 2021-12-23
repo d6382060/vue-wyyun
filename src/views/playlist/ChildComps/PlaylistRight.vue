@@ -104,4 +104,7 @@ export default {
     text-decoration: underline;
   }
 }
+.el-row {
+  position: inherit;
+}
 </style>

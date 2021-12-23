@@ -5,7 +5,7 @@
         <h2>{{ title }}</h2>
       </div>
       <div class="value">
-        <a v-for="value in item" href="javascript:;"
+        <a @click="toClick(value)" v-for="value in item" href="javascript:;"
           ><span>{{ value }}</span></a
         >
       </div>
@@ -15,6 +15,7 @@
 </template>
 
 <script>
+import { useRouter } from 'vue-router'
 export default {
   name: 'HomeList',
   props: {
@@ -26,6 +27,16 @@ export default {
       default () {
         return []
       }
+    }
+  },
+  setup (props) {
+    const router = useRouter()
+    const toClick = (name) => {
+      router.push({ path: '/playlist/table', query: { cat: name } })
+    }
+
+    return {
+      toClick
     }
   }
 }

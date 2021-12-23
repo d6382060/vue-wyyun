@@ -10,11 +10,6 @@
    <div>我的音乐</div>
  </template>
   </tab-bar-item>
-    <tab-bar-item path="/download">
- <template v-slot:item-text>
-   <div>下载客户端</div>
- </template>
-  </tab-bar-item>
     <tab-bar-item>
  <template v-slot:item-text>
   <search/>

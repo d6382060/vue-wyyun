@@ -80,6 +80,9 @@ export function searchHotDetail () {
 // 搜索
 export function serach (name, type) {
   return request({
-    url: `/cloudsearch?keywords= ${name}&type=${type}`,
+    url: `/cloudsearch?keywords=${name}&type=${type}`,
   })
 }
+
+
+
