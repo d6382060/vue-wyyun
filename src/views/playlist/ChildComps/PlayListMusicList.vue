@@ -9,7 +9,9 @@
         <el-table-column label="序号" type="index" width="50" />
         <el-table-column prop="name" label="歌曲" width="250">
           <template #default="scope">
-            <span @click="playsong(scope.row.id)">{{ scope.row.name }}</span>
+            <span @click="playsong(scope.row.id, scope.row, scope.$index)">{{
+              scope.row.name
+            }}</span>
           </template>
         </el-table-column>
         <el-table-column prop="ar[0].name" label="歌手" />
@@ -17,18 +19,18 @@
       </el-table>
     </div>
     <div class="btn">
-      <el-button @click="login" type="warning" round
+      <el-button v-show="!isshowBtn" @click="login" type="warning" round
         >登录查看更多歌曲</el-button
       >
     </div>
-    <play-bar :url="url" />
+    <play-bar :url="url" ref="ply_num" :play_list="play_list" />
   </div>
 </template>
 
 <script>
 import { getSongUrl } from '../../../network/playlist'
 import { useStore } from 'vuex'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import playBar from '../../../components/common/play-bar/playBar.vue'
 export default {
   components: { playBar },
@@ -47,21 +49,45 @@ export default {
     const login = () => {
       store.commit("islogDialog");
     }
+    const ply_num = ref(null)
+    let url = ref(store.state.play_list);
+    let play_list = ref(store.state.list);
+    const playsong = async (id, row, Clickindex) => {
+      store.dispatch('getSongUrls', row)
 
-    const url = ref()
-    const playsong = async (id) => {
-      console.log();
-      let res = await getSongUrl(id);
-      url.value = res.data[0].url;
-      console.log(url.value);
+      if (play_list.value.length === props.tracks.length) {
+        ply_num.value.url_index = Clickindex
+      }
 
+      play_list.value.some((item, index) => {
+        if (item.row_id === id) {
+          ply_num.value.url_index = index
+        } else {
+          ply_num.value.url_index = 0
+        }
+      });
+
+
+
+
+      // let res = await getSongUrl(id);
+      // // 创建播放对象
+      // let playBoj = {
+      //   url: res.data[0].url,
+      //   singer: row.ar[0].name,
+      //   music_name: row.name,
+      // }
+      // play_list.value.unshift(playBoj)
 
     }
 
     return {
+      isshowBtn: computed(() => store.getters),
       login,
       playsong,
-      url
+      url,
+      play_list,
+      ply_num
     }
   }
 }

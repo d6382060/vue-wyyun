@@ -84,5 +84,10 @@ export function serach (name, type) {
   })
 }
 
+// /退出登录
 
-
+export function logout () {
+  return request({
+    url: `/logout`,
+  })
+}

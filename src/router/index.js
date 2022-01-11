@@ -6,6 +6,9 @@ const Playlist = () => import('../views/playlist/Playlist.vue')
 const Index = () => import('../views/home/index.vue')
 const PlaylistTable = () => import('../views/playlistTable/PlaylistTable.vue')
 const search = () => import('../views/search/Search.vue')
+const User = () => import('../views/user/User.vue');
+const UserSongsRank = () => import('../views/user/UserSongsRank.vue')
+const MsgPrivate = () => import('../views/msg/MsgPrivate.vue')
 const routes = [
   { path: '', redirect: '/home' }, // 重定向
   {
@@ -49,6 +52,30 @@ const routes = [
         path: '/search',
         name: 'search',
         component: search,
+        meta: {
+          title: '欢迎使用'
+        }
+      },
+      {
+        path: '/user/home',
+        name: 'User',
+        component: User,
+        meta: {
+          title: '欢迎使用'
+        }
+      },
+      {
+        path: '/user/songs/rank',
+        name: 'UserSongsRank',
+        component: UserSongsRank,
+        meta: {
+          title: '欢迎使用'
+        }
+      },
+      {
+        path: '/mas/MsgPrivate',
+        name: 'MsgPrivate',
+        component: MsgPrivate,
         meta: {
           title: '欢迎使用'
         }

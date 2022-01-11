@@ -21,7 +21,7 @@
               <span class="user-date">{{ createTime }}创建</span>
             </div>
             <div class="btns">
-              <el-button size="mini" round>播放</el-button>
+              <el-button @click="allplay" size="mini" round>全部播放</el-button>
               <el-button size="mini" round
                 >收藏({{ detail.detail_info.subscribedCount }})</el-button
               >
@@ -47,8 +47,8 @@
           </div>
         </div>
         <!-- 歌曲列表组件 -->
-        <play-list-music-list-is-login v-if="islogin" :ids="loginList" />
-        <play-list-music-list v-else :tracks="detail.detail_tracks" />
+        <!-- <play-list-music-list-is-login v-if="islogin" :ids="loginList" /> -->
+        <play-list-music-list :tracks="detail.detail_tracks" />
 
         <!-- 评论 -->
         <play-list-comment :cid="id" />
@@ -63,6 +63,7 @@
 
 <script>
 import { useRoute } from 'vue-router'
+import { useStore } from 'vuex'
 import { ref, computed, onMounted, reactive } from 'vue';
 import { playlistDetail, getSongDetail } from '../../network/playlist'
 import PlayListMusicList from './ChildComps/PlayListMusicList.vue';
@@ -73,11 +74,13 @@ export default {
   components: { PlayListMusicList, PlayListComment, PlaylistRight, PlayListMusicListIsLogin },
   name: 'Playlist',
   setup (props) {
-
+    const store = useStore()
     const route = useRoute()
     let id = computed(() => {
       return route.query.id
     })
+
+
     // 保存数据
     const detail = reactive({
       detail_info: {},
@@ -93,8 +96,13 @@ export default {
       detail['detail_info'] = res.playlist
       detail['detail_tags'] = res.playlist.tags
       detail['detail_user'] = res.playlist.creator;
-      detail['detail_tracks'] = res.playlist.tracks;
-      getLoginMusic(res.playlist.trackIds)
+      if (islogin) {
+        getLoginMusic(res.playlist.trackIds);
+      } else {
+        detail['detail_tracks'] = res.playlist.tracks;
+      }
+
+
     }
     getdetail()
     const loginList = ref([])
@@ -106,8 +114,9 @@ export default {
         strId.push(item.id)
       })
       let res = await getSongDetail(strId.join(','))
-      console.log(res);
-      loginList.value = res.songs;
+      // console.log(res);
+      // loginList.value = res.songs;
+      detail['detail_tracks'] = res.songs;
 
 
     }
@@ -125,14 +134,18 @@ export default {
 
 
     // 获取登录状态
-    const islogin = ref(window.sessionStorage.getItem('isLogin'))
-
+    const { islogin } = store.getters;
+    // 全部播放
+    const allplay = () => {
+      store.dispatch('getSongUrls', detail['detail_tracks'])
+    }
     return {
       createTime,
       detail,
       id,
       islogin,
       loginList,
+      allplay
     }
   }
 }

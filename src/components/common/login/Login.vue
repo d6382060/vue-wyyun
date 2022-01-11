@@ -1,12 +1,12 @@
 <template>
   <div class="login">
-    <el-popover v-if="isLofins" placement="bottom" :width="400" trigger="click">
+    <el-popover v-if="isLofins" placement="bottom" :width="400" trigger="hover">
       <template #reference>
         <div class="user-img">
           <img :src="avatr || getuserInfos.avatarUrl" alt="" />
         </div>
       </template>
-      <div>sss</div>
+      <login-my-info-list />
     </el-popover>
     <el-button v-else type="text" @click="loginto">登录</el-button>
 
@@ -52,9 +52,11 @@
 <script>
 import { ElMessage } from 'element-plus'
 import { phoneLogin, userDateil } from '../../../network/home'
-import { ref, reactive, computed } from "vue";
+import { ref, reactive } from "vue";
 import { useStore } from 'vuex'
+import LoginMyInfoList from './LoginMyInfoList.vue';
 export default {
+  components: { LoginMyInfoList },
   name: "Login",
   setup (props) {
 
@@ -66,6 +68,7 @@ export default {
       pwd: '' //密码
 
     })
+
     let centerDialogVisible = ref(store.state.centerDialogVisible)
     const loginto = () => {
       store.commit("islogDialog");

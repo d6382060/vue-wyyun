@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { getSongUrl, refreshLogin } from '../../../network/playlist'
+import { getSongUrl } from '../../../network/playlist'
 import { ref, computed } from 'vue'
 import playBar from '../../../components/common/play-bar/playBar.vue'
 export default {

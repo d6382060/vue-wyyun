@@ -135,7 +135,6 @@ export default {
       }
       url.value.unshift(res.data[0].url)
       play_list.value.unshift(playBoj)
-      console.log(playBoj);
     }
 
     // 跳转歌单
