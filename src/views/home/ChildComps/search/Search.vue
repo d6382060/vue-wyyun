@@ -17,7 +17,12 @@
         <div class="hot">
           <h2>热门搜索</h2>
           <ul>
-            <li class="hot-list" :key="index" v-for="(item, index) in hotMusic">
+            <li
+              @click="hotSearch(item.searchWord)"
+              class="hot-list"
+              :key="index"
+              v-for="(item, index) in hotMusic"
+            >
               <span class="hot-index">{{ index + 1 }}.</span
               ><span>{{ item.searchWord }}</span>
             </li>
@@ -144,13 +149,18 @@ export default {
 
     }
 
+    // 点击热门进行搜索
+    const hotSearch = (names) => {
+      router.push({ path: '/search', query: { name: names } })
+    }
 
     return {
       hotMusic,
       keyVal,
       getListHandle,
       musicInfo,
-      tosearch
+      tosearch,
+      hotSearch
     }
   }
 }

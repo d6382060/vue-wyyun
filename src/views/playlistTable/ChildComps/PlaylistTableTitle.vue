@@ -1,7 +1,7 @@
 <template>
   <div class="tltie_scel">
     <div class="title">
-      {{ cat }}
+      {{ cat || "全部" }}
     </div>
     <div class="select">
       <span @click="issclect = !issclect" class="el-dropdown-link">

@@ -30,13 +30,13 @@
                 >评论({{ detail.detail_info.commentCount }})</el-button
               >
             </div>
-            <div class="tags">
+            <div v-if="detail.detail_tags.length !== 0" class="tags">
               <span>标签:</span>
               <el-tag v-for="item in detail.detail_tags" type="success">{{
                 item
               }}</el-tag>
             </div>
-            <div class="album-desc-more">
+            <div v-if="detail.detail_info.description" class="album-desc-more">
               <b>介绍:</b>
               <div class="detailed-desc">
                 <p>
@@ -56,15 +56,15 @@
     </div>
 
     <div class="r">
-      <playlist-right />
+      <playlist-right @replaylist="replaylist" />
     </div>
   </div>
 </template>
 
 <script>
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
-import { ref, computed, onMounted, reactive } from 'vue';
+import { ref, computed, onMounted, reactive, watch } from 'vue';
 import { playlistDetail, getSongDetail } from '../../network/playlist'
 import PlayListMusicList from './ChildComps/PlayListMusicList.vue';
 import PlayListComment from './ChildComps/PlayListComment.vue';
@@ -76,9 +76,8 @@ export default {
   setup (props) {
     const store = useStore()
     const route = useRoute()
-    let id = computed(() => {
-      return route.query.id
-    })
+    const router = useRouter()
+    let id = ref(route.query.id)
 
 
     // 保存数据
@@ -89,9 +88,12 @@ export default {
       detail_tracks: [],
 
     })
+
+
     // 获取歌单详细信息
     const getdetail = async () => {
       let res = await playlistDetail(id.value);
+      console.log(res);
       detail['detail_trackIds'] = res.playlist.trackIds
       detail['detail_info'] = res.playlist
       detail['detail_tags'] = res.playlist.tags
@@ -139,13 +141,22 @@ export default {
     const allplay = () => {
       store.dispatch('getSongUrls', detail['detail_tracks'])
     }
+
+    const replaylist = (ids) => {
+      // console.log(id);
+      id.value = ids
+      console.log(id.value);
+      router.push({ path: "/playlist/detail", query: { id: ids } })
+      getdetail()
+    }
     return {
       createTime,
       detail,
       id,
       islogin,
       loginList,
-      allplay
+      allplay,
+      replaylist
     }
   }
 }

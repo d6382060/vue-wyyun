@@ -1,9 +1,9 @@
 import { request } from './request'
 
-// 获取账号信息
-export function getaccount () {
+// 获取用户详情
+export function getaccount (id) {
   return request({
-    url: `/user/account`,
+    url: `/user/detail?uid=${id}`,
   })
 }
 
@@ -23,12 +23,10 @@ export function getsubcount () {
 }
 
 //获取用户绑定信息
-export function getuserPlaylist (uid) {
+export function getuserPlaylist (params) {
   return request({
     url: `/user/playlist`,
-    params: {
-      uid
-    }
+    params
   })
 }
 

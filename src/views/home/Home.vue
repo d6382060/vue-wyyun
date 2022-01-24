@@ -7,11 +7,15 @@
     </div>
     <div class="list">
       <div class="left">
-        <home-list title="热门推荐" :item="item" />
+        <home-list
+          @toToplist="toToplist('热门推荐')"
+          title="热门推荐"
+          :item="item"
+        />
         <home-list-item />
-        <home-list title="新碟上架" />
+        <home-list @toToplist="toToplist('新碟上架')" title="新碟上架" />
         <home-roll />
-        <home-list title="榜单" />
+        <home-list @toToplist="toToplist('榜单')" title="榜单" />
         <home-bill />
       </div>
       <div class="right">
@@ -34,10 +38,12 @@ import HomeRoll from './ChildComps/HomeRoll.vue'
 import HomeBill from './ChildComps/HomeBill.vue'
 import HomeRightItem from './ChildComps/HomeRightItem.vue'
 import PlayBar from '../../components/common/play-bar/playBar.vue'
+import { useRouter } from 'vue-router'
 export default {
   components: { HomeCarousel, HomeList, HomeListItem, HomeRoll, HomeBill, HomeRightItem, PlayBar },
   name: "Home",
   setup () {
+    const router = useRouter()
     let bcimg = ref({
       backgroundImage: 'url(https://img2.baidu.com/it/u=1053855357,1766396589&fm=26&fmt=auto)',
       backgroundRepeat: 'no-repeat',
@@ -51,12 +57,28 @@ export default {
       height: '299px'
 
     })
+
     const item = ref(["华语", "流行", "摇滚", "民谣", "电子"])
+    const toToplist = (name) => {
+      switch (name) {
+        case '热门推荐':
+          router.push('/playlist/table')
+          break;
+        case '新碟上架':
+          console.log('b');
+          break;
+        case '榜单':
+          router.push('/discover/toplist')
+          break;
 
-
+        default:
+          break;
+      }
+    }
     return {
       bcimg,
       item,
+      toToplist
     }
   }
 }

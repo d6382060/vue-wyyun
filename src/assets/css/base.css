@@ -66,3 +66,10 @@ li {
 .el-input__inner {
   height: 110px;
 }
+
+/* 溢出隐藏加省略号 样式 */
+.ovf {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

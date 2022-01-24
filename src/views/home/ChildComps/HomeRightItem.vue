@@ -2,11 +2,11 @@
   <div class="right-item">
     <div class="singer">
       <div class="title">
-        <h4>入驻歌手</h4>
-        <span>查看全部</span>
+        <h4>推荐歌手</h4>
+        <router-link class="to" to="/discover/artist">查看全部</router-link>
       </div>
       <ul class="siner-item">
-        <li v-for="item in artist">
+        <li @click="toArtist(item.id)" v-for="item in artist">
           <a href="javascript:;">
             <div class="img">
               <img :src="item.img1v1Url" />
@@ -18,9 +18,6 @@
           </a>
         </li>
       </ul>
-      <div class="btn">
-        <button>申请成为音乐人</button>
-      </div>
     </div>
     <div class="The-host"></div>
   </div>
@@ -28,21 +25,25 @@
 
 <script>
 import { artistList } from '../../../network/home'
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 export default {
   name: 'HomeRightItem',
   setup () {
-
+    const router = useRouter()
     let artist = ref([])
     // 歌手id 
     artistList().then(res => {
-      console.log(res);
       artist.value = res.artists.slice(0, 5)
     })
-    console.log(artist.value);
 
+    // 跳转歌手页面
+    const toArtist = (id) => {
+      router.push({ path: '/artist', query: { id } })
+    }
     return {
-      artist
+      artist,
+      toArtist
     }
   }
 }
@@ -98,8 +99,12 @@ export default {
     h2 {
       font-size: 14px;
     }
-    span {
-      font-size: 14px;
+    .to {
+      font-size: 12px;
+      &:hover {
+        text-decoration: underline;
+        cursor: pointer;
+      }
     }
   }
 }

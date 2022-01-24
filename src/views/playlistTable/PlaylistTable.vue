@@ -49,6 +49,7 @@ export default {
       TopPlaylist()
     }
     const handleCurrentChange = (index) => {
+      console.log(index);
       getTopPlaylist_data.offset = (index - 1) * 35
       TopPlaylist()
     }

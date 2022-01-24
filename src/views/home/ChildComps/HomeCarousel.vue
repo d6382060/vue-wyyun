@@ -1,10 +1,12 @@
 <template>
-  <div class="w">
-    <el-carousel :interval="5000" arrow="always">
-      <el-carousel-item v-for="item in bannerLists" :key="item">
-        <img :src="item.imageUrl" alt="" />
-      </el-carousel-item>
-    </el-carousel>
+  <div>
+    <div class="w">
+      <el-carousel :interval="5000" arrow="always">
+        <el-carousel-item ref="imgs" v-for="item in bannerLists" :key="item">
+          <img :src="item.imageUrl" alt="" />
+        </el-carousel-item>
+      </el-carousel>
+    </div>
   </div>
 </template>
 
@@ -13,7 +15,7 @@ import { banner } from '../../../network/home'
 import { ref, onMounted } from 'vue'
 export default {
   name: 'HomeCarousel',
-  setup () {
+  setup (props, { emit }) {
     let bannerLists = ref(null)
     // 获取轮播图数据
     const bannerList = () => {
@@ -23,11 +25,9 @@ export default {
     }
     bannerList()
 
-    onMounted(() => {
 
-    })
     return {
-      bannerLists
+      bannerLists,
     }
   }
 }

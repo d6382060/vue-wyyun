@@ -29,7 +29,7 @@ import { playlistComment } from '../../../network/playlist'
 export default {
   name: 'PlayListComment',
   props: {
-    cid: String
+    cid: [String, Number]
   },
   setup (props) {
     const iid = computed(() => {

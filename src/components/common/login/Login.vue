@@ -6,7 +6,7 @@
           <img :src="avatr || getuserInfos.avatarUrl" alt="" />
         </div>
       </template>
-      <login-my-info-list />
+      <login-my-info-list @outlog="outlog" />
     </el-popover>
     <el-button v-else type="text" @click="loginto">登录</el-button>
 
@@ -50,16 +50,18 @@
 </template>
 
 <script>
+import { logout } from '@/network/home'
 import { ElMessage } from 'element-plus'
 import { phoneLogin, userDateil } from '../../../network/home'
-import { ref, reactive } from "vue";
+import { ref, reactive, watch } from "vue";
 import { useStore } from 'vuex'
 import LoginMyInfoList from './LoginMyInfoList.vue';
+import { useRouter } from 'vue-router';
 export default {
   components: { LoginMyInfoList },
   name: "Login",
   setup (props) {
-
+    const router = useRouter()
     // vuex
     const store = useStore();
     // 数据
@@ -82,11 +84,14 @@ export default {
     // 拿到ref实例
     const ruleForm = ref(null)
     // 是否登录
-    let isLofins = ref(window.sessionStorage.getItem('isLogin'));
+    // let isLofins = ref(window.sessionStorage.getItem('isLogin'));
+    let isLofins = ref(false);
+    isLofins.value = store.getters.islogin
     // 头像
     let avatr = ref()
     // 点击登录
     const submitForm = () => {
+
       ruleForm.value.validate(async (valid) => {
         if (valid) {
           const res = await phoneLogin(loginData.phone, loginData.pwd);
@@ -104,16 +109,31 @@ export default {
             avatr.value = res.profile.avatarUrl
             console.log(avatr.value);
             getuserInfos.value = JSON.parse(window.sessionStorage.getItem('userInfo'));
-            isLofins.value = window.sessionStorage.getItem('isLogin')
+            // isLofins.value = window.sessionStorage.getItem('isLogin')
+            store.commit('setislogin', true)
+            isLofins.value = store.getters.islogin
+            console.log(isLofins.value);
             store.commit("islogDialog");
-            // setTimeout(() => {
-            //   location.reload();
-            // }, 1000);
-
+            store.commit('setislogin')
           }
         }
       })
 
+    }
+    // 退出登录
+    const outlog = () => {
+      logout().then(res => {
+        console.log(res);
+      })
+      window.sessionStorage.clear()
+      store.commit('setislogin', false)
+      isLofins.value = store.getters.islogin
+      if (!isLofins.value) {
+        router.push('/home')
+      }
+      // setTimeout(() => {
+
+      // }, 500);
     }
     //传入ID获取用户信息
     const getuserInfo = async (uid) => {
@@ -126,8 +146,7 @@ export default {
     }
 
     // 获取用信息
-    const getuserInfos = ref(JSON.parse(window.sessionStorage.getItem('userInfo')));
-
+    let getuserInfos = ref(JSON.parse(window.sessionStorage.getItem('userInfo')) || '');
 
     return {
       centerDialogVisible,
@@ -139,7 +158,8 @@ export default {
       submitForm,
       isLofins,
       store,
-      avatr
+      avatr,
+      outlog
 
 
 

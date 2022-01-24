@@ -3,8 +3,7 @@
 # API
 
 Api 使用 github 大佬 开源 的 API
-下载地址：
--- https://neteasecloudmusicapi.vercel.app/#/
+git: https://github.com/Binaryify/NeteaseCloudMusicApi
 
 ## Project setup
 

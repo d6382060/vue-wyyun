@@ -20,7 +20,7 @@ export function request (config) {
   instance.interceptors.response.use(res => {
     return res.data
   }, err => {
-    console.log(err);
+
   })
   //3、发送真正的请求
   return instance(config)

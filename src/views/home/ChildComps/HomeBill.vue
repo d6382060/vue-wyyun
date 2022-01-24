@@ -10,12 +10,12 @@
       </div>
       <ul>
         <li v-for="(item, index) in allList.soaring_list" :key="item.id">
-          <a :title="item.name" href="javascript:;"
+          <a @click="toSong(item.id)" :title="item.name" href="javascript:;"
             >{{ index + 1 }}.{{ item.name }}</a
           >
         </li>
       </ul>
-      <span class="all">查看全部></span>
+      <span @click="LookAtAll(19723756)" class="all">查看全部></span>
     </div>
     <div class="bill">
       <div class="pai">
@@ -27,12 +27,12 @@
       </div>
       <ul>
         <li v-for="(item, index) in allList.newsong_list" :key="item.id">
-          <a :title="item.name" href="javascript:;"
+          <a @click="toSong(item.id)" :title="item.name" href="javascript:;"
             >{{ index + 1 }}.{{ item.name }}</a
           >
         </li>
       </ul>
-      <span class="all">查看全部></span>
+      <span @click="LookAtAll(3779629)" class="all">查看全部></span>
     </div>
     <div class="bill">
       <div class="pai">
@@ -44,12 +44,12 @@
       </div>
       <ul>
         <li v-for="(item, index) in allList.original_list" :key="item.id">
-          <a :title="item.name" href="javascript:;"
+          <a @click="toSong(item.id)" :title="item.name" href="javascript:;"
             >{{ index + 1 }}.{{ item.name }}</a
           >
         </li>
       </ul>
-      <span class="all">查看全部></span>
+      <span @click="LookAtAll(2884035)" class="all">查看全部></span>
     </div>
   </div>
 </template>
@@ -57,10 +57,11 @@
 <script>
 import { topList, topListdetail } from '../../../network/home';
 import { reactive, ref } from 'vue';
+import { useRouter } from 'vue-router';
 export default {
   name: 'HomeBill',
   setup () {
-
+    const router = useRouter()
     let allList = reactive({
       original_list: [], // 原创榜
       soaring_list: [], // 飙升榜
@@ -107,12 +108,21 @@ export default {
         })
       })
 
+
+    }
+    const toSong = (id) => {
+      router.push({ path: "/song", query: { id } })
     }
     getTopList()
 
+    const LookAtAll = (id) => {
+      router.push({ path: "/discover/toplist", query: { id } })
 
+    }
     return {
-      allList
+      allList,
+      toSong,
+      LookAtAll
     }
 
   }

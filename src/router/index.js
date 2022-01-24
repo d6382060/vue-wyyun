@@ -9,6 +9,11 @@ const search = () => import('../views/search/Search.vue')
 const User = () => import('../views/user/User.vue');
 const UserSongsRank = () => import('../views/user/UserSongsRank.vue')
 const MsgPrivate = () => import('../views/msg/MsgPrivate.vue')
+const Artist = () => import('../views/artist/Artist.vue')
+const Song = () => import('../views/singleSong/Song.vue')
+const DiscovertopList = () => import('../views/discover/DiscovertopList.vue')
+const DiscoverArtist = () => import('../views/discover/DiscoverArtist.vue')
+const DiscoverAlbum = () => import('../views/discover/DiscoverAlbum.vue')
 const routes = [
   { path: '', redirect: '/home' }, // 重定向
   {
@@ -78,6 +83,46 @@ const routes = [
         component: MsgPrivate,
         meta: {
           title: '欢迎使用'
+        }
+      },
+      {
+        path: '/artist/:tabs?',
+        name: 'Artist',
+        component: Artist,
+        meta: {
+          title: '歌手'
+        }
+      },
+      {
+        path: '/song',
+        name: 'Song',
+        component: Song,
+        meta: {
+          title: '单曲'
+        }
+      },
+      {
+        path: '/discover/toplist',
+        name: 'DiscovertopList',
+        component: DiscovertopList,
+        meta: {
+          title: '排行榜'
+        }
+      },
+      {
+        path: '/discover/artist',
+        name: 'DiscoverArtist',
+        component: DiscoverArtist,
+        meta: {
+          title: '歌手'
+        }
+      },
+      {
+        path: '/discover/album',
+        name: 'DiscoverAlbum',
+        component: DiscoverAlbum,
+        meta: {
+          title: '新碟上架'
         }
       }
     ]

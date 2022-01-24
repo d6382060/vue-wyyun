@@ -5,7 +5,7 @@
     </div>
     <el-row :gutter="20">
       <el-col v-for="item in subscribers" :span="6"
-        ><div class="grid-content bg-purple">
+        ><div @click="toUser(item.userId)" class="grid-content bg-purple">
           <img :title="item.nickname" :src="item.avatarUrl" alt="" /></div
       ></el-col>
     </el-row>
@@ -17,7 +17,7 @@
         <div class="list-img">
           <img :src="item.picUrl" alt="" />
         </div>
-        <div class="info">
+        <div @click="replaylist(item)" class="info">
           <a :title="item.name" href="javascript:;">{{ item.name }}</a>
         </div>
       </div>
@@ -29,11 +29,13 @@
 import { personalized } from '../../../network/home'
 import { playlistSubScribers } from '../../../network/playlist';
 import { ref, computed } from 'vue';
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 export default {
   name: 'PlaylistRight',
-  setup (props) {
+  emits: ['replaylist'],
+  setup (props, { emit }) {
     const route = useRoute()
+    const router = useRouter()
     const id = computed(() => {
       return route.query.id
     });
@@ -50,9 +52,18 @@ export default {
 
     })
 
+    // 跳转
+    const replaylist = (id) => {
+      emit('replaylist', id)
+    }
+    const toUser = (id) => {
+      router.push({ path: '/user/home', query: { id } })
+    }
     return {
       subscribers,
-      hotPlayList
+      hotPlayList,
+      replaylist,
+      toUser
     }
   }
 }

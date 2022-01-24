@@ -10,7 +10,7 @@
         >
       </div>
     </div>
-    <div class="rigths">更多</div>
+    <div class="rigths" @click="emit('toToplist')">更多</div>
   </div>
 </template>
 
@@ -29,14 +29,15 @@ export default {
       }
     }
   },
-  setup (props) {
+  setup (props, { emit }) {
     const router = useRouter()
     const toClick = (name) => {
       router.push({ path: '/playlist/table', query: { cat: name } })
     }
 
     return {
-      toClick
+      toClick,
+      emit
     }
   }
 }
@@ -66,6 +67,10 @@ export default {
 .rigths {
   font-size: 14px;
   margin-right: 20px;
+  &:hover {
+    cursor: pointer;
+    text-decoration: underline;
+  }
 }
 .value a:nth-last-child(n + 2) {
   width: 50px;

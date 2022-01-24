@@ -15,6 +15,12 @@ export function userDateil (cid) {
 }
 
 
+// 音乐是否可用
+export function isMusic (id) {
+  return request({
+    url: `/check/music?id=${id}`
+  })
+}
 
 
 
@@ -42,9 +48,17 @@ export function personalized (num) {
 }
 
 // 新碟上架
-export function newAlbum () {
+export function newAlbum (params) {
   return request({
-    url: `/top/album?offset=0&limit=30`,
+    url: `/top/album`,
+    params
+  })
+}
+// 全部新碟
+export function allAlbum (params) {
+  return request({
+    url: `/album/new`,
+    params
   })
 }
 

@@ -4,13 +4,18 @@
     <el-tabs @tab-click="tab_click" type="border-card">
       <el-tab-pane label="单曲">
         <ul>
-          <li v-for="item in musicInfo.single" :key="item.id" class="table">
+          <li
+            v-for="(item, index) in musicInfo.single"
+            :key="item.id"
+            class="table"
+          >
             <a
-              @click="play_music(item.id, item)"
+              @click="play_music(item.id, item, index)"
               class="name"
               href="javascript:;"
-              >{{ item.name }}</a
-            >
+              >{{ item.name }}
+            </a>
+
             <a class="ar" href="javascript:;">
               <span>{{ item.ar[0].name }} </span>
               <span v-if="item.ar[1]"> / {{ item.ar[1].name }}</span>
@@ -34,6 +39,7 @@
       <el-tab-pane label="歌手">
         <div class="songer">
           <div
+            @click="toArtist(item.id)"
             v-for="item in musicInfo.singer"
             :key="item.id"
             class="soner_item"
@@ -65,19 +71,21 @@
       </el-tab-pane>
     </el-tabs>
   </div>
-  <play-bar :url="url" :play_list="play_list" />
+  <play-bar :url="url" ref="ply_num" :play_list="play_list" />
 </template>
 
 <script>
-import { serach } from '../../network/home'
-import { getSongUrl } from '../../network/playlist'
-import { ref, onMounted, reactive, watch } from "vue"
+import { ElMessage } from 'element-plus'
+import { serach, isMusic } from '../../network/home'
+import { useStore } from 'vuex'
+import { ref, onMounted, reactive, watch, computed } from "vue"
 import { useRoute, useRouter } from 'vue-router'
 import playBar from '../../components/common/play-bar/playBar.vue'
 export default {
   components: { playBar },
   name: "search",
   setup (props) {
+    const store = useStore()
     const route = useRoute();
     const router = useRouter()
     let musicInfo = reactive({
@@ -121,20 +129,29 @@ export default {
         init(1000)
       }
     }
-    let url = ref([]);
-    let play_list = ref([])
-    // 播放歌曲
-    const play_music = async (id, item) => {
 
-      let res = await getSongUrl(id);
-      //  创建播放对象
-      let playBoj = {
-        url: res.data[0].url,
-        singer: item.ar[0].name,
-        music_name: item.name,
+    // 播放歌曲
+    const ply_num = ref(null)
+    let url = ref(store.state.play_list);
+    let play_list = ref(store.state.list);
+    const play_music = async (id, row, Clickindex) => {
+      let available = await isMusic(id)
+      console.log();
+      if (!available) {
+        ElMessage({
+          message: '亲爱的,暂无版权',
+          type: 'warning',
+        })
+        return
       }
-      url.value.unshift(res.data[0].url)
-      play_list.value.unshift(playBoj)
+      store.dispatch('getSongUrls', row)
+      play_list.value.some((item, index) => {
+        if (item.row_id === id) {
+          ply_num.value.url_index = index
+        } else {
+          ply_num.value.url_index = 0
+        }
+      });
     }
 
     // 跳转歌单
@@ -145,6 +162,11 @@ export default {
       keyVal.value = oldVlaue
       init(1)
     })
+    // 跳转歌手
+    const toArtist = (id) => {
+
+      router.push({ path: "artist", query: { id } })
+    }
     onMounted(() => {
       init(1)
     })
@@ -155,7 +177,9 @@ export default {
       play_music,
       url,
       toPlay_list,
-      play_list
+      play_list,
+      ply_num,
+      toArtist
     }
   }
 
@@ -193,6 +217,7 @@ export default {
       }
     }
     .ar {
+      width: 150px;
       span:hover {
         text-decoration: underline;
       }
@@ -209,6 +234,9 @@ export default {
         img {
           width: 130px;
           height: 130px;
+        }
+        &:hover {
+          cursor: pointer;
         }
       }
       .name {
@@ -304,5 +332,8 @@ export default {
 }
 .el-tabs__content {
   margin-bottom: 40px;
+}
+.warning {
+  width: 150px;
 }
 </style>

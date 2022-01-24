@@ -7,12 +7,12 @@
           推荐
           </template>
         </sub-nav-item>
-        <sub-nav-item>
+        <sub-nav-item path="/discover/toplist">
           <template v-slot:item-text>
           排行榜
           </template>
         </sub-nav-item>
-        <sub-nav-item>
+        <sub-nav-item path="/playlist/table">
           <template v-slot:item-text>
             歌单
           </template>
@@ -22,12 +22,12 @@
            主播电台
           </template>
         </sub-nav-item>
-        <sub-nav-item>
+        <sub-nav-item path="/discover/artist">
           <template v-slot:item-text>
            歌手
           </template>
         </sub-nav-item>
-        <sub-nav-item>
+        <sub-nav-item path="/discover/album">
           <template v-slot:item-text>
          新碟上架
           </template>
