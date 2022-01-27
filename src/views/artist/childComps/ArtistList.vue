@@ -33,7 +33,12 @@
         </el-dropdown>
       </div>
     </div>
-    <song-list :isalbum="false" @playsong="playsong" :hotsongs="hot_songs" />
+    <song-list
+      :size="total"
+      :isalbum="false"
+      @playsong="playsong"
+      :hotsongs="hot_songs"
+    />
     <!-- <div class="song_list">
       <ul>
         <li v-for="(item, index) in hot_songs" class="list_item">
@@ -73,6 +78,7 @@ export default {
     const handleCommand = (command) => {
       dropdown_item.value = command
     }
+    let total = ref(0)
     // 歌手ID
     let siner_id = ref(route.query.id)
     // 歌曲数据
@@ -81,6 +87,8 @@ export default {
     const init_list = async () => {
       let { hotSongs } = await getSingeMusic(siner_id.value);
       hot_songs.value = hotSongs
+      total.value = hotSongs.length
+      console.log(hot_songs.value);
     }
     onMounted(() => {
       init_list()
@@ -97,6 +105,7 @@ export default {
       hot_songs,
       playsong,
       emit,
+      total
     }
   }
 }

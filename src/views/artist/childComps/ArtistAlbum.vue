@@ -7,9 +7,13 @@
         class="album_item"
       >
         <div class="img">
-          <img :src="item.blurPicUrl" alt="" />
+          <a :href="'/album?id=' + item.id">
+            <img :title="item.name" :src="item.blurPicUrl" alt="" />
+          </a>
         </div>
-        <div class="music_name">{{ item.name }}</div>
+        <div class="music_name">
+          <a :href="'/album?id=' + item.id">{{ item.name }}</a>
+        </div>
         <div class="singer_name">{{ dateInit(item.publishTime) }}</div>
       </div>
     </div>

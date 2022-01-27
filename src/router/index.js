@@ -14,6 +14,11 @@ const Song = () => import('../views/singleSong/Song.vue')
 const DiscovertopList = () => import('../views/discover/DiscovertopList.vue')
 const DiscoverArtist = () => import('../views/discover/DiscoverArtist.vue')
 const DiscoverAlbum = () => import('../views/discover/DiscoverAlbum.vue')
+const Album = () => import('../views/album/Album.vue')
+const Mv = () => import('../views/Mv/mv.vue')
+const DiscoverDjradio = () => import('../views/discover/DiscoverDjradio.vue')
+const Djradio = () => import('../views/discover/DiscoverDjradio/Djradio.vue')
+const Category = () => import('../views/discover/DiscoverDjradio/Category.vue')
 const routes = [
   { path: '', redirect: '/home' }, // 重定向
   {
@@ -124,6 +129,42 @@ const routes = [
         meta: {
           title: '新碟上架'
         }
+      },
+      {
+        path: '/album',
+        name: 'Album',
+        component: Album,
+        meta: {
+          title: '专辑'
+        }
+      },
+      {
+        path: '/mv',
+        name: 'Mv',
+        component: Mv,
+        meta: {
+          title: 'mv'
+        }
+      },
+      {
+        path: '/discover',
+        name: 'DiscoverDjradio',
+        component: DiscoverDjradio,
+        meta: {
+          title: '主播电台'
+        },
+        children: [
+          {
+            path: 'djradio',
+            name: 'Djradio',
+            component: Djradio
+          },
+          {
+            path: 'djradio/category',
+            name: 'Category',
+            component: Category
+          }
+        ]
       }
     ]
   },

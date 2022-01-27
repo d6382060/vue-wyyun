@@ -1,10 +1,8 @@
 <template>
   <div id="home">
     <!-- 轮播 -->
-    <div class="m">
-      <div :style="bcimg"></div>
-      <home-carousel class="home-car" />
-    </div>
+    <home-carousel class="home-car" />
+
     <div class="list">
       <div class="left">
         <home-list
@@ -44,19 +42,6 @@ export default {
   name: "Home",
   setup () {
     const router = useRouter()
-    let bcimg = ref({
-      backgroundImage: 'url(https://img2.baidu.com/it/u=1053855357,1766396589&fm=26&fmt=auto)',
-      backgroundRepeat: 'no-repeat',
-      backgroundPosition: 'center',
-      backgroundSize: 'cover',
-      filter: ' blur(4px)',
-      position: 'absolute',
-      top: '106px',
-      left: '0px',
-      right: '0px',
-      height: '299px'
-
-    })
 
     const item = ref(["华语", "流行", "摇滚", "民谣", "电子"])
     const toToplist = (name) => {
@@ -65,7 +50,7 @@ export default {
           router.push('/playlist/table')
           break;
         case '新碟上架':
-          console.log('b');
+          router.push('/discover/album')
           break;
         case '榜单':
           router.push('/discover/toplist')
@@ -76,7 +61,6 @@ export default {
       }
     }
     return {
-      bcimg,
       item,
       toToplist
     }

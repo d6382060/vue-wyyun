@@ -11,7 +11,9 @@
         <img :src="item.blurPicUrl + '?param=130y130'" alt="" />
 
         <div class="des">
-          <a class="name ovf" href="javascript:;">{{ item.name }}</a>
+          <a @click="toalbum(item.id)" class="name ovf" href="javascript:;">{{
+            item.name
+          }}</a>
           <a class="singer" :href="'/artist?id=' + item.artists[0].id">{{
             item.artists[0].name
           }}</a>
@@ -22,6 +24,7 @@
 </template>
 
 <script>
+import { useRouter } from 'vue-router'
 export default {
   name: "AlbumItem",
   props: {
@@ -31,6 +34,17 @@ export default {
       default () {
         return []
       }
+    }
+  },
+  setup (props) {
+    const router = useRouter()
+    const toalbum = (id) => {
+      router.push({ path: "/album", query: { id } })
+    }
+
+
+    return {
+      toalbum
     }
   }
 }

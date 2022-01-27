@@ -1,6 +1,8 @@
 <template>
   <div class="comment">
-    <div class="title">评论 <span>共76707条评论</span></div>
+    <div class="title">
+      评论 <span>共{{ songCommentData.total }}条评论</span>
+    </div>
     <div class="release">
       <div class="text-area">
         <div class="avatar">
@@ -261,12 +263,11 @@ export default {
         ElMessage.error(res.msg)
       } else if (res.code == 200) {
         ElMessage.success('评论成功')
-
       }
     }
     // 评论
     const commentContent = async (id) => {
-      comment_params.id = props.playId
+      comment_params.id = props.playId || route.query.id
       if (coment_num.value <= 0) {
         ElMessage.error('字数不能超过137')
         return
@@ -278,11 +279,12 @@ export default {
       if (!store.state.islogin) {
         store.commit('islogDialog')
       } else {
-        fnCommentPrams(1, id, value.value)
+        fnCommentPrams(1, '', value.value)
         value.value = '';
       }
-
       emit('commentContent')
+
+
     }
 
     // 解析点赞

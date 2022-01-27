@@ -20,18 +20,16 @@
         :playlist="TopListDetailData.playlist"
       />
       <div class="song_list">
-        <div class="title">
-          <span>歌曲列表</span>
-          <span>{{ songNum }}首歌</span>
-          <div>
-            播放：<strong>{{ TopListDetailData.playlist.playCount }}</strong
-            >次
-          </div>
-        </div>
         <song-list
+          :size="songNum"
           @playsong="playsong"
           :hotsongs="TopListDetailData.playlist.tracks"
-        />
+        >
+          <template v-slot:playnum
+            >播放：<strong>{{ TopListDetailData.playlist.playCount }}</strong
+            >次</template
+          >
+        </song-list>
         <!-- 评论 -->
         <comment
           ref="commentRef"

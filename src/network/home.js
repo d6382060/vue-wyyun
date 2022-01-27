@@ -36,7 +36,7 @@ export function search (name) {
 // banner 轮播
 export function banner () {
   return request({
-    url: `/banner`,
+    url: `/banner?type=0`,
   })
 }
 
@@ -48,16 +48,22 @@ export function personalized (num) {
 }
 
 // 新碟上架
-export function newAlbum (params) {
+export function newAlbum () {
   return request({
-    url: `/top/album`,
-    params
+    url: `/album/newest`,
   })
 }
 // 全部新碟
 export function allAlbum (params) {
   return request({
     url: `/album/new`,
+    params
+  })
+}
+// 最新专辑
+export function newestAlbum (params) {
+  return request({
+    url: `/album/newest`,
     params
   })
 }

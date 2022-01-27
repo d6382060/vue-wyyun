@@ -7,11 +7,11 @@
         :ids="ids"
         ref="hot"
         @playsong="playsong"
-        v-show="showIndex == 0"
+        v-show="route.path == '/artist/hot' || route.path == '/artist'"
       />
-      <artist-album v-show="showIndex == 1" />
-      <artist-mv v-show="showIndex == 2" />
-      <artist-desc v-show="showIndex == 3" />
+      <artist-album v-show="route.path == '/artist/album'" />
+      <artist-mv v-show="route.path == '/artist/mv'" />
+      <artist-desc v-show="route.path == '/artist/desc'" />
     </div>
     <div class="hotArtist">
       <div class="title">
@@ -51,6 +51,7 @@ export default {
   },
   name: "Artist",
   setup (props) {
+
     const store = useStore()
     const router = useRouter()
     const route = useRoute()
@@ -58,6 +59,7 @@ export default {
     const img = ref(null)
     const tabsClick = (index) => {
       showIndex.value = index
+      console.log(route.path);
       let tabs = 'hot'
       switch (index) {
         case 0:
@@ -65,6 +67,7 @@ export default {
           break;
         case 1:
           tabs = 'album'
+
           break;
         case 2:
           tabs = 'mv'
@@ -108,6 +111,7 @@ export default {
       store.dispatch('getSongUrls', hot.value.hot_songs)
     }
     return {
+      route,
       tabsClick,
       img,
       showIndex,

@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { allAlbum, newAlbum } from '@/network/home'
+import { allAlbum, newestAlbum } from '@/network/home'
 import { reactive, ref } from '@vue/reactivity'
 import AlbumItem from './ChildComps/album/AlbumItem.vue'
 import { onMounted } from '@vue/runtime-core'
@@ -53,8 +53,9 @@ export default {
     })
 
     const initNewAlbum = async () => {
-      let { monthData } = await newAlbum(AlbumParams)
-      AlbumData.newAlbum = monthData.slice(0, 10)
+      let { albums } = await newestAlbum()
+      AlbumData.newAlbum = albums.slice(0, 10);
+
 
     }
     const initAllAlbumAlbum = async () => {

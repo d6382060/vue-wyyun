@@ -17,7 +17,7 @@
             歌单
           </template>
         </sub-nav-item>
-        <sub-nav-item>
+        <sub-nav-item path="/discover/djradio" >
           <template v-slot:item-text>
            主播电台
           </template>

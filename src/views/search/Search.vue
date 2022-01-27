@@ -29,10 +29,18 @@
         <div class="album">
           <div v-for="item in musicInfo.album" class="album_item">
             <div class="img">
-              <img :src="item.blurPicUrl" alt="" :title="item.name" />
+              <a :href="'/album?id=' + item.id">
+                <img :src="item.blurPicUrl" alt="" :title="item.name" />
+              </a>
             </div>
-            <div class="music_name">{{ item.name }}</div>
-            <div class="singer_name">{{ item.artist.name }}</div>
+            <div class="music_name">
+              <a :href="'/album?id=' + item.id">{{ item.name }}</a>
+            </div>
+            <div class="singer_name">
+              <a :href="'/artist?id=' + item.artist.id">
+                {{ item.artist.name }}</a
+              >
+            </div>
           </div>
         </div>
       </el-tab-pane>
@@ -264,6 +272,7 @@ export default {
         }
       }
       .music_name {
+        height: 20px;
         overflow: hidden;
         text-overflow: ellipsis;
         &:hover {
@@ -272,8 +281,11 @@ export default {
         }
       }
       .singer_name {
-        margin-top: 5px;
-        color: #0c73c2;
+        a {
+          margin-top: 5px;
+          color: #0c73c2;
+        }
+
         &:hover {
           cursor: pointer;
           text-decoration: underline;

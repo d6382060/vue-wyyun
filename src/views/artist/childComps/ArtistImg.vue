@@ -9,11 +9,11 @@
       <ul class="tabs_list">
         <li
           @click="tabsClick(index)"
-          :class="{ active: index == currIndex }"
+          :class="{ active: route.path == item.p }"
           v-for="(item, index) in tab_list"
         >
           <a href="javascript:;">
-            <em>{{ item }}</em></a
+            <em>{{ item.t }}</em></a
           >
         </li>
       </ul>
@@ -54,10 +54,23 @@ export default {
       getSinerDetail()
     })
     return {
-      tab_list: ref(['热门作品', '所有专辑', '相关MV', '艺人介绍']),
+      tab_list: ref([{
+        t: '热门作品',
+        p: '/artist/hot'
+      }, {
+        t: '所有专辑',
+        p: '/artist/album'
+      }, {
+        t: '相关MV',
+        p: '/artist/mv'
+      }, {
+        t: '艺人介绍',
+        p: '/artist/desc'
+      }]),
       currIndex,
       tabsClick,
-      sdiner_data
+      sdiner_data,
+      route
     }
   }
 }

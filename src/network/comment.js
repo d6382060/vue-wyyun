@@ -16,3 +16,17 @@ export function giveLike (params) {
   })
 }
 
+// 专辑评论
+export function albumComment (params) {
+  return request({
+    url: `/comment/album?timestamp=${new Date().valueOf()}`,
+    params
+  })
+}
+// mv 评论
+export function mvComment (params) {
+  return request({
+    url: `/comment/mv?timestamp=${new Date().valueOf()}`,
+    params
+  })
+}

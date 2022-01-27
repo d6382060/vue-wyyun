@@ -4,9 +4,11 @@
       <div class="mv_img">
         <img :src="item.imgurl" alt="" />
         <a class="icon-play iconfont icon-bofang1" href="javascript:;"></a>
-        <a class="msk" href="javascript:;"></a>
+        <a class="msk" :href="'/mv?id=' + item.id"></a>
       </div>
-      <p class="des">{{ item.name }}</p>
+      <p @click="toMv(item.id)" :title="item.name" class="des ovf">
+        {{ item.name }}
+      </p>
     </div>
     <div v-if="mvs_data.length == 0" class="noMv">
       <i class="iconfont icon-zanwuxinxi"></i> 暂无MV
@@ -24,12 +26,13 @@
 
 <script>
 import { getSingeMv } from '../../../network/artist'
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { onMounted, reactive, ref } from 'vue'
 export default {
   name: 'ArtistMv',
   setup (props) {
     const route = useRoute()
+    const router = useRouter()
     // 请求你参数
     let getSingeMv_data = reactive({
       limit: 12,
@@ -48,13 +51,17 @@ export default {
       getSingeMv_data.offset = (currentPage1.value - 1) * 15;
       init_Mv()
     }
+    const toMv = (id) => {
+      router.push({ path: '/mv', query: { id } })
+    }
     onMounted(() => {
       init_Mv()
     })
     return {
       mvs_data,
       Page,
-      currentPage1
+      currentPage1,
+      toMv
     }
   }
 }
@@ -106,6 +113,8 @@ export default {
       }
     }
     .des {
+      width: 140px;
+      height: 20px;
       margin: 8px 0 3px;
       font-size: 14px;
       &:hover {
