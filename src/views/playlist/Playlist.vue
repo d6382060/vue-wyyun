@@ -22,10 +22,9 @@
             </div>
             <div class="btns">
               <el-button @click="allplay" size="mini" round>全部播放</el-button>
-              <el-button size="mini" round
+              <el-button @click="subList" size="mini" round
                 >收藏({{ detail.detail_info.subscribedCount }})</el-button
               >
-              <el-button size="mini" round>下载</el-button>
               <el-button size="mini" round
                 >评论({{ detail.detail_info.commentCount }})</el-button
               >
@@ -47,11 +46,15 @@
           </div>
         </div>
         <!-- 歌曲列表组件 -->
-        <!-- <play-list-music-list-is-login v-if="islogin" :ids="loginList" /> -->
         <play-list-music-list :tracks="detail.detail_tracks" />
 
         <!-- 评论 -->
-        <play-list-comment :cid="id" />
+        <comment
+          :playId="id"
+          :commentType="2"
+          @Page="Page"
+          :songCommentData="songCommentData"
+        />
       </div>
     </div>
 
@@ -62,24 +65,27 @@
 </template>
 
 <script>
+import { ElMessage } from 'element-plus'
+import { subPlayList } from "@/network/playlist"
+import { playlistComment } from '@/network/comment'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
-import { ref, computed, onMounted, reactive, watch } from 'vue';
+import { ref, computed, onMounted, reactive, provide } from 'vue';
 import { playlistDetail, getSongDetail } from '../../network/playlist'
 import PlayListMusicList from './ChildComps/PlayListMusicList.vue';
-import PlayListComment from './ChildComps/PlayListComment.vue';
 import PlaylistRight from './ChildComps/PlaylistRight.vue';
 import PlayListMusicListIsLogin from './ChildComps/PlayListMusicListIsLogin.vue';
+import Comment from '../../components/common/comment/comment.vue';
 export default {
-  components: { PlayListMusicList, PlayListComment, PlaylistRight, PlayListMusicListIsLogin },
+  components: { PlayListMusicList, PlaylistRight, PlayListMusicListIsLogin, Comment },
   name: 'Playlist',
   setup (props) {
+    // provide 数据给 评论组件 
+    provide('updataComment', getSongCommentData)
     const store = useStore()
     const route = useRoute()
     const router = useRouter()
     let id = ref(route.query.id)
-
-
     // 保存数据
     const detail = reactive({
       detail_info: {},
@@ -131,7 +137,34 @@ export default {
       let day = time.getDate();
       return year + "-" + mount + '-' + day;
     })
+
+    // 获取歌曲评论参数 
+    let songCommentPrams = reactive({
+      id: id.value,
+      limit: 20,
+      offset: 0,
+    })
+
+    // 获取评论信息
+    const songCommentData = reactive({
+      total: 0,
+      comments: [],
+      hotComments: []
+    })
+    const getSongCommentData = async () => {
+      let { comments, hotComments, total } = await playlistComment(songCommentPrams);
+      songCommentData.comments = comments
+      songCommentData.hotComments = hotComments
+      songCommentData.total = total
+    }
+    // 切换 页码
+    const Page = (currentPage1) => {
+      songCommentPrams.offset = (currentPage1 - 1) * 20;
+      getSongCommentData()
+    }
+
     onMounted(() => {
+      getSongCommentData()
     })
 
 
@@ -143,13 +176,31 @@ export default {
     }
 
     const replaylist = (ids) => {
-      // console.log(id);
       id.value = ids
-      console.log(id.value);
       router.push({ path: "/playlist/detail", query: { id: ids } })
       getdetail()
+      getSongCommentData()
+    }
+    // 收藏歌单
+    const subList = async () => {
+      let res = await subPlayList(id.value, 1);
+      console.log(res);
+      if (!res || res.code !== 200) {
+        ElMessage({
+          message: "收藏失败",
+          type: 'error',
+        })
+      } else {
+        ElMessage({
+          message: "收藏成功",
+          type: 'success',
+        })
+      }
     }
     return {
+      subList,
+      Page,
+      songCommentData,
       createTime,
       detail,
       id,

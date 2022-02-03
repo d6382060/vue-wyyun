@@ -1,7 +1,7 @@
 import { request } from './request'
 
 // 歌单详情
-export function playlistDetail (id, cookie) {
+export function playlistDetail (id) {
   return request({
     url: `/playlist/detail?id=${id}`,
   })
@@ -48,3 +48,11 @@ export function refreshLogin () {
     url: `/login/refresh`,
   })
 }
+
+//  收藏/取消收藏歌单   t : 类型,1:收藏,2:取消收藏 id : 歌单 id
+export function subPlayList (id, t) {
+  return request({
+    url: `/playlist/subscribe?t=${t}&id=${id}`,
+  })
+}
+

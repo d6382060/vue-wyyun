@@ -19,7 +19,13 @@
             <div class="song_name">
               <p class="name">
                 {{ songInfo.name }}
-                <i title="播放MV" class="iconfont icon-MV"></i>
+                <i
+                  v-if="songInfo.mvId !== 0"
+                  @click="toMv"
+                  :style="{ color: isMusicPlay ? '#cfcfcf' : 'red' }"
+                  title="播放MV"
+                  class="iconfont icon-MV"
+                ></i>
               </p>
               <p v-if="songInfo.alia.length !== 0" class="des">
                 {{ songInfo.alia[0] }}
@@ -35,7 +41,13 @@
             <a href="">{{ songInfo.album }}</a>
           </div>
           <div class="btns">
-            <el-button @click="playsong" size="mini" round>播放</el-button>
+            <el-button
+              :disabled="isMusicPlay"
+              @click="playsong"
+              size="mini"
+              round
+              >播放</el-button
+            >
             <el-button size="mini" round>收藏</el-button>
             <el-button size="mini" round>下载</el-button>
             <el-button size="mini" round
@@ -86,10 +98,11 @@
 </template>
 
 <script>
+import { isMusic } from "@/network/home"
 import { getSongDetail } from '@/network/playlist'
 import { getLyric, getSongComment } from '../../network/singleSong'
 import { ref, onMounted, reactive, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import playBar from '../../components/common/play-bar/playBar.vue'
 import Comment from '../../components/common/comment/comment.vue'
@@ -99,6 +112,7 @@ export default {
   components: { playBar, Comment, SongHavePlaylist, SimilarSong },
   name: 'Song',
   setup (props) {
+    const router = useRouter()
     const store = useStore()
     const route = useRoute()
     let music_id = ref(route.query.id)
@@ -193,17 +207,24 @@ export default {
       picUrl: "",
       name: '',
       singer: '',
-      album: ""
+      album: "",
+      mvId: 0
     })
     // 获取歌曲信息
     const init_songInfo = async () => {
       let { songs } = await getSongDetail(music_id.value);
-      rows.value = songs[0]
-      songInfo.alia = songs[0].alia
-      songInfo.picUrl = songs[0].al.picUrl
-      songInfo.name = songs[0].name
-      songInfo.singer = songs[0].ar[0].name
-      songInfo.album = songs[0].al.name
+      console.log(songs);
+      if (songs.length !== 0) {
+        rows.value = songs[0]
+        songInfo.alia = songs[0].alia
+        songInfo.picUrl = songs[0].al.picUrl
+        songInfo.name = songs[0].name
+        songInfo.singer = songs[0].ar[0].name
+        songInfo.album = songs[0].al.name
+        songInfo.mvId = songs[0].mv
+
+      }
+
     }
     // 切换 页码
     const Page = (currentPage1) => {
@@ -219,11 +240,23 @@ export default {
       }, 1000);
     }
     init_songInfo()
+    let isMusicPlay = ref(false)
     onMounted(() => {
       init_getLyric()
       getSongCommentData()
+      isMusic(music_id.value).then(res => {
+        if (!res) {
+          isMusicPlay.value = true
+        }
+      })
     })
+    const toMv = () => {
+      if (isMusicPlay || songInfo.mvId === 0) return
+      router.push({ path: '/mv', query: { id: songInfo.mvId } })
+    }
     return {
+      toMv,
+      isMusicPlay,
       rotate_img,
       playsong,
       lyrics,

@@ -47,3 +47,10 @@ export function getHotSinger (params) {
     params
   })
 }
+
+// 收藏的歌手列表
+export function subArtist () {
+  return request({
+    url: `/artist/sublist`,
+  })
+}

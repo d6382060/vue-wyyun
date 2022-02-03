@@ -36,7 +36,6 @@ export default createStore({
   },
   actions: {
     async getSongUrls (conxt, row) {
-      console.log(row);
       if (row instanceof Array) {
         // let islist = conxt.state.list.some(values => {
         //   return values.row_id == row
@@ -84,11 +83,10 @@ export default createStore({
         })
         if (islist) return
         let res = await getSongUrl(row.id);
-
         // 创建播放对象
         let playBoj = {
           url: res.data[0].url,
-          singer: row.ar[0].name,
+          singer: row.artists && row.artists[0].name || row.ar[0].name,
           music_name: row.name,
           row_id: row.id
         }

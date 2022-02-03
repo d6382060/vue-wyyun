@@ -1,7 +1,7 @@
 <template>
   <div class="detailed">
     <div class="imgs">
-      <img :src="detail.blurPicUrl + '?param=177y177'" alt="" />
+      <img :src="detail.picUrl + '?param=177y177'" alt="" />
     </div>
     <div class="info">
       <div class="title">
@@ -10,44 +10,31 @@
       </div>
       <div class="user-info">
         <div class="user-img">
-          <slot name="userImg"></slot>
+          <img :src="detail.dj?.avatarUrl" alt="" />
         </div>
         <div class="name">
-          <a :href="'/artist?id=' + detail.artist?.id">{{
-            detail.artist?.name
+          <a :href="'/user/home?id=' + detail.dj?.userId">{{
+            detail.dj?.nickname
           }}</a>
         </div>
-        <span class="user-date">
-          <slot name="userDate"></slot>
-        </span>
-      </div>
-      <div class="issue_time">
-        <slot name="inittime"></slot>
-      </div>
-      <!-- 发行公司 -->
-      <div class="company">
-        <slot name="company"></slot>
       </div>
       <div class="btns">
         <el-button @click="emit('allplay')" size="mini" round
           >全部播放</el-button
         >
-        <!-- 收藏 -->
-        <slot name="like"></slot>
-        <!-- 下咋子 -->
-        <slot name="down"></slot>
-        <!-- 评论 -->
-        <slot name="comnn"></slot>
+        <el-button size="mini" round>订阅</el-button>
       </div>
       <div v-if="detail.tags" class="tags">
         <span>标签:</span>
         <el-tag type="success">{{ detail.tags }}</el-tag>
       </div>
       <div class="album-desc-more">
-        <b>介绍:</b>
+        <a :href="'/discover/djradio/category?id=' + detail.categoryId">{{
+          detail.category
+        }}</a>
         <div class="detailed-desc">
           <p style="width: 400px; word-wrap: break-word">
-            {{ detail.description }}
+            {{ detail.desc }}
           </p>
         </div>
       </div>
@@ -57,7 +44,7 @@
 
 <script>
 export default {
-  name: "ListInfo",
+  name: "DjadioHeafer",
   props: {
     detail: {
       type: Object,
@@ -66,7 +53,6 @@ export default {
       }
     },
     tag: String,
-    commNum: Number
   },
   emits: ['allplay'],
   setup (props, { emit }) {
@@ -81,7 +67,6 @@ export default {
 <style scoped lang='scss'>
 .detailed {
   display: flex;
-
   .imgs {
     border: 1px solid #d5d5d5;
     width: 215px;
@@ -97,6 +82,7 @@ export default {
   .info {
     flex: 1;
     margin-left: 20px;
+
     .title {
       display: flex;
       align-items: center;
@@ -112,6 +98,7 @@ export default {
       height: 35px;
       display: flex;
       margin-top: 20px;
+      margin-bottom: 15px;
       .user-img {
         line-height: 25px;
         font-size: 14px;
@@ -146,7 +133,26 @@ export default {
     }
     .album-desc-more {
       margin-top: 25px;
+      display: flex;
+      a {
+        position: relative;
+        top: -1px;
+        height: 20px;
+        overflow: hidden;
+        padding: 0 6px;
+        border: 1px solid #cc0000;
+        line-height: 20px;
+        *line-height: 18px;
+        color: #cc0000;
+        vertical-align: middle;
+        font-size: 12px;
+        &:hover {
+          background-color: #fbeeee;
+        }
+      }
+
       .detailed-desc {
+        margin-left: 7px;
         font-size: 14px;
         line-height: 20px;
       }

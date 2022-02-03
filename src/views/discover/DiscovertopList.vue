@@ -55,7 +55,7 @@ import SongList from '../../components/common/song_list/SongList.vue'
 import TopListHader from './ChildComps/toplist/TopListHader.vue'
 import TopListItem from './ChildComps/toplist/TopListItem'
 import { topList, topListdetail } from '@/network/home'
-import { ref, reactive, watch } from 'vue'
+import { ref, reactive, watch, provide } from 'vue'
 import { onMounted, computed, nextTick } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute, useRouter } from 'vue-router'
@@ -70,6 +70,7 @@ export default {
     Comment
   },
   setup (props) {
+
     const router = useRouter()
     const route = useRoute()
     const store = useStore()
@@ -153,29 +154,12 @@ export default {
       songCommentData.hotComments = hotComments
       console.log(songCommentData);
     }
+    // provide 数据给 评论组件 
+    provide('updataComment', getSongCommentData)
     // 切换 页码
     const Page = (currentPage1) => {
       songCommentPrams.offset = (currentPage1 - 1) * 20;
       getSongCommentData()
-    }
-    // 发送评论
-    const commentContent = () => {
-      setTimeout(() => {
-        getSongCommentData()
-      }, 2000);
-    }
-    // 回复评论
-    const replyCommentContent = () => {
-      setTimeout(() => {
-        getSongCommentData()
-      }, 2000);
-    }
-
-    // 点赞
-    const giveaLike = () => {
-      setTimeout(() => {
-        getSongCommentData()
-      }, 2000);
     }
     // 滚动
     const commentRef = ref(null)
@@ -183,7 +167,7 @@ export default {
       animate(window, commentRef.value.$el.offsetTop)
       // window.scrollTo(0, commentRef.value.$el.offsetTop);
     }
-    onMounted(async () => {
+    onMounted(() => {
       getTopListDetail(ids.value)
       topListInit()
       getSongCommentData()
@@ -192,7 +176,6 @@ export default {
     })
     return {
       rolling,
-      giveaLike,
       ids,
       url,
       ply_num,
@@ -204,8 +187,6 @@ export default {
       playsong,
       songCommentData,
       Page,
-      commentContent,
-      replyCommentContent,
       commentRef
 
     }

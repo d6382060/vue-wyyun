@@ -195,6 +195,7 @@ export default {
 
 <style scoped lang='scss'>
 .play-audio {
+  min-width: 1657px;
   transition: all 0.5s;
   display: flex;
   justify-content: center;

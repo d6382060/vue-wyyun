@@ -172,7 +172,6 @@ export default {
     })
     // 跳转歌手
     const toArtist = (id) => {
-
       router.push({ path: "artist", query: { id } })
     }
     onMounted(() => {

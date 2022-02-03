@@ -27,3 +27,11 @@ export function mvSimi (id) {
     url: `/simi/mv?mvid=${id}`
   })
 }
+
+// 收藏的 MV 列表
+export function subMvList () {
+  return request({
+    url: `/mv/sublist`
+  })
+}
+

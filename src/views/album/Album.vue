@@ -14,21 +14,24 @@
         <template v-slot:company>
           发行公司：{{ albumData.album.company }}
         </template>
+        <template v-slot:like>
+          <el-button size="mini" round>收藏</el-button>
+        </template>
+        <template v-slot:down>
+          <el-button size="mini" round>下载</el-button>
+        </template>
+        <template v-slot:comnn>
+          <el-button size="mini" round>评论({{ commentData.total }})</el-button>
+        </template>
       </list-info>
-      <el-alert title="已过滤不能播放的歌曲" type="success" :closable="false">
-      </el-alert>
+      <!-- <el-alert title="已过滤不能播放的歌曲" type="success" :closable="false">
+      </el-alert> -->
       <song-list
         :size="albumData.size"
         @playsong="playsong"
         :hotsongs="albumData.songs"
       />
-      <comment
-        @commentContent="commentContent"
-        @replyCommentContent="replyCommentContent"
-        :commentType="3"
-        @page="page"
-        :songCommentData="commentData"
-      />
+      <comment :commentType="3" @page="page" :songCommentData="commentData" />
     </div>
     <div class="album_R">
       <div class="pd_R">
@@ -52,7 +55,7 @@ import ListInfo from '../../components/common/listInfo/ListInfo.vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import { reactive, ref } from '@vue/reactivity'
-import { onMounted } from '@vue/runtime-core'
+import { onMounted, provide } from '@vue/runtime-core'
 import SongList from '../../components/common/song_list/SongList.vue'
 import PlayBar from '../../components/common/play-bar/playBar.vue'
 import Comment from '../../components/common/comment/comment.vue'
@@ -115,23 +118,12 @@ export default {
         commentData.comments = comments
       }
     }
+    // provide 数据给 评论组件 
+    provide('updataComment', getalbumComment)
     // 翻页
     const page = (indexpage) => {
       commentParams.offset = (indexpage - 1) * 35;
       getalbumComment()
-    }
-
-    // 评论
-    const commentContent = () => {
-      setTimeout(() => {
-        getalbumComment()
-      }, 1000);
-    }
-    // 回复
-    const replyCommentContent = () => {
-      setTimeout(() => {
-        getalbumComment()
-      }, 1000);
     }
     // 单曲播放
     const ply_num = ref(null)
@@ -139,6 +131,8 @@ export default {
     let play_list = ref(store.state.list);
     // 播放
     const playsong = (row, Clickindex) => {
+
+      console.log(row);
       store.dispatch('getSongUrls', row)
 
       if (play_list.value.length === albumData.songs.length) {
@@ -184,8 +178,6 @@ export default {
       allplay,
       page,
       commentData,
-      replyCommentContent,
-      commentContent,
       toplaylistdetail
     }
   }

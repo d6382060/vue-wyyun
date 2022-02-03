@@ -2,6 +2,7 @@
   <div class="title">
     <span>歌曲列表</span>
     <span>{{ size }}首歌</span>
+    <slot name="sort"></slot>
     <div>
       <slot name="playnum"></slot>
     </div>
@@ -9,33 +10,38 @@
   <div class="song_list_com">
     <ul>
       <li v-for="(item, index) in hotsongs" class="list_item">
-        <span class="item_index">{{ index + 1 }}</span>
+        <span class="item_index">{{ item.serialNum || index + 1 }}</span>
         <i @click="playsong(item, index)" class="iconfont icon-bofang1"></i>
         <div class="item_name">
           <i title="VIP歌曲" v-if="item.fee == 1" class="iconfont icon-vip"></i>
           <a @click="toSong(item.id)" href="javascript:;">{{ item.name }} </a>
           <span
-            :title="item.alia[0]"
+            :title="item.alia ? item.alia[0] : ''"
             class="alia ovf"
-            v-show="item.alia.length > 0 ? true : false"
-            >-{{ item.alia[0] }}</span
+            v-show="item.alia && item.alia.length > 0 ? true : false"
+            >-{{ item.alia ? item.alia[0] : "" }}</span
           >
           <a
             title="播放MV"
             class="iconfont icon-MV"
-            v-if="item.mv !== 0"
-            :href="'/mv?id=' + item.mv"
+            v-if="item.mv && item.mv !== 0"
+            @click="toMv(item.mv, item.st)"
+            href="javascript:;"
           ></a>
         </div>
+
         <!-- 专辑 -->
         <a v-if="isalbum" class="item_album" href="javascript:;">{{
           item.al.name
         }}</a>
+
         <!-- 歌手 -->
         <a @click="toArtist" class="item_singer" href="javascript:;"
-          ><span :data-id="item.ar[0].id">{{ item.ar[0].name }}</span
-          ><span :data-id="item.ar[1] ? item.ar[1].id : ''">{{
-            item.ar[1] ? "/ " + item.ar[1].name : ""
+          ><span :data-id="item.ar && item.ar[0].id">{{
+            item.ar && item.ar[0].name
+          }}</span
+          ><span :data-id="item.ar && item.ar[1] ? item.ar[1].id : ''">{{
+            item.ar && item.ar[1] ? "/ " + item.ar[1].name : ""
           }}</span>
         </a>
       </li>
@@ -45,7 +51,8 @@
 </template>
 
 <script>
-import { useRouter } from 'vue-router'
+import { ElMessage } from 'element-plus'
+import { useRouter, useRoute } from 'vue-router'
 export default {
   name: "SongList",
   emits: ['playsong'],
@@ -63,13 +70,34 @@ export default {
     }
   },
   setup (props, { emit }) {
+    const route = useRoute()
     const router = useRouter();
     const playsong = (row, index) => {
+      if (row.fee === 4) {
+        ElMessage({
+          message: '此专辑为数字专辑，请前往网易云购买',
+          type: 'warning',
+        })
+        return
+      }
+      if (row.st === -1) {
+        ElMessage({
+          message: '由于版权保护，您所在的地区暂时无法使用。',
+          type: 'warning',
+        })
+        return
+      }
       emit('playsong', row, index)
     }
     // 跳转单曲详情
     const toSong = (id) => {
-      router.push({ path: '/song', query: { id } })
+      if (route.path === '/djradio') {
+        router.push({ path: '/program', query: { id } })
+
+      } else {
+        router.push({ path: '/song', query: { id } })
+
+      }
 
     }
     // 跳转歌手页面
@@ -77,7 +105,20 @@ export default {
       let id = e.target.dataset.id
       router.push({ path: '/artist', query: { id } })
     }
+
+    // 跳转mv页面 
+    const toMv = (mvid, st) => {
+      if (st === -1) {
+        ElMessage({
+          message: '由于版权保护，您所在的地区暂时无法使用。',
+          type: 'warning',
+        })
+        return
+      }
+      router.push({ path: '/mv', query: { id: mvid } })
+    }
     return {
+      toMv,
       playsong,
       toSong,
       toArtist
@@ -95,11 +136,13 @@ export default {
     color: #000;
     font-size: 20px;
     line-height: 28px;
+    width: 150px;
   }
   span:nth-child(2) {
     margin: 8px 0 0 20px;
     color: #666;
     font-size: 14px;
+    width: 150px;
   }
   div {
     font-size: 14px;

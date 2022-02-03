@@ -1,7 +1,7 @@
 @font-face {
   font-family: 'iconfont'; /* Project id 2929356 */
-  src: url('//at.alicdn.com/t/font_2929356_8w0c0vh7sl8.woff2?t=1643260820464') format('woff2'), url('//at.alicdn.com/t/font_2929356_8w0c0vh7sl8.woff?t=1643260820464') format('woff'),
-    url('//at.alicdn.com/t/font_2929356_8w0c0vh7sl8.ttf?t=1643260820464') format('truetype');
+  src: url('//at.alicdn.com/t/font_2929356_ex9dqb0ot4m.woff2?t=1643709869967') format('woff2'), url('//at.alicdn.com/t/font_2929356_ex9dqb0ot4m.woff?t=1643709869967') format('woff'),
+    url('//at.alicdn.com/t/font_2929356_ex9dqb0ot4m.ttf?t=1643709869967') format('truetype');
 }
 
 .iconfont {
@@ -10,6 +10,30 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-xiajiantou:before {
+  content: '\e60c';
+}
+
+.icon-youjiantou:before {
+  content: '\e609';
+}
+
+.icon-shoucang:before {
+  content: '\e608';
+}
+
+.icon-music:before {
+  content: '\e701';
+}
+
+.icon-paixujiangxu:before {
+  content: '\e63a';
+}
+
+.icon-paixushengxu:before {
+  content: '\e63c';
 }
 
 .icon-hr:before {

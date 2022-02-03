@@ -5,7 +5,7 @@
    <div>发现音乐</div>
  </template>
   </tab-bar-item>
-    <tab-bar-item path="/my">
+    <tab-bar-item @mousemove="updata" :path="'/my/music/playlist?id=' + playListId">
  <template v-slot:item-text>
    <div>我的音乐</div>
  </template>
@@ -25,19 +25,38 @@
 </template>
 
 <script>
-import { useStore } from 'vuex'
-import { ref } from 'vue'
+import { getuserPlaylist } from "@/network/user"
 import tabBar from '../../../components/common/tabbar/TabBar.vue'
 import TabBarItem from '../../../components/common/tabbar/TabBarItem.vue'
 import Search from './search/Search.vue'
 import Login from '../../../components/common/login/Login.vue'
+import { onMounted, ref } from '@vue/runtime-core'
 
 export default {
   components: { tabBar, TabBarItem, Search, Login },
   name: 'TabNavBar',
   setup (props, { emit }) {
+    // 获取用户ID
+    let playListId = ref(0)
+    let userId = ref(JSON.parse(window.sessionStorage.getItem("userInfo")))
+    const init = async () => {
+      let res = await getuserPlaylist({ uid: userId.value?.userId })
+      if (res.code === 200) {
+        playListId.value = res.playlist[0].id
+      }
 
+
+    }
+    const updata = () => {
+      userId.value = JSON.parse(window.sessionStorage.getItem("userInfo"))
+
+    }
+    onMounted(() => {
+      init()
+    })
     return {
+      playListId,
+      updata
     }
   }
 }

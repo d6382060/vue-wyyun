@@ -22,7 +22,7 @@ export function getsubcount () {
   })
 }
 
-//获取用户绑定信息
+//获取用户歌单
 export function getuserPlaylist (params) {
   return request({
     url: `/user/playlist`,

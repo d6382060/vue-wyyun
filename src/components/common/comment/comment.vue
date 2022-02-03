@@ -196,33 +196,45 @@
 </template>
 
 <script>
+import { timeDelay } from "@/utils/playsong"
 import { giveLike } from '@/network/comment'
 import { sendComment } from '@/network/singleSong'
 import { ElMessage } from 'element-plus'
-import { computed, ref, watch, reactive, toRef } from 'vue'
+import { computed, ref, watch, reactive, toRef, inject } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 export default {
   name: 'comment',
   props: {
-    songCommentData: {
+    songCommentData: { // 评论数据对象 {total:评论数量,comments:’最新评论,hotComments:精彩评论}
       type: Object,
       default () {
         return {}
       }
     },
-    commentType: {
+    commentType: { // 对象资源类型:0: 歌曲、1: mv、2: 歌单、3: 专辑、4: 电台、5: 视频、6: 动态
       type: Number,
       default: 0
     },
-    playId: {
+    playId: {  // 对应资源的id
       type: [Number, String],
     }
   },
   emits: ['page', 'commentContent', 'replyCommentContent', 'giveaLike'],
   setup (props, { emit }) {
+    /**
+     * 评论接口参数
+     * params:{
+     * limit:0  评论数量
+     * offset:0 // 分页参数 (当前页码-1) * 每页评论数量
+     * id:0  资源id
+     * }
+     * 
+     */
     const store = useStore()
     const route = useRoute()
+    // inject 接收父组件的数据  为调用获取评论信息接口的 函数
+    const updataComment = inject('updataComment')
     // 输入框数据
     let value = ref('')
     // 是否显示回复框
@@ -282,7 +294,7 @@ export default {
         fnCommentPrams(1, '', value.value)
         value.value = '';
       }
-      emit('commentContent')
+      timeDelay(updataComment)
 
 
     }
@@ -325,11 +337,9 @@ export default {
       fnCommentPrams(2, id, reply)
       textarea1.value = '';
       isbeReplied.value = -1
-      emit('replyCommentContent')
+      timeDelay(updataComment)
     }
     // 点赞参数
-    // 是否点赞
-    let islike = ref(false)
     let comentLikePrams = reactive({
       id: route.query.id || props.playId,
       t: 1,// 是否点赞 , 1 为点赞 ,0 为取消点赞
@@ -342,7 +352,7 @@ export default {
     const giveaLike = async (id) => {
       comentLikePrams.cid = id
       let res = await giveLike(comentLikePrams)
-      emit('giveaLike')
+      timeDelay(updataComment)
     }
     return {
       giveaLike,
@@ -366,6 +376,9 @@ export default {
 </script>
 
 <style scoped lang='scss'>
+.el-pagination {
+  text-align: center;
+}
 .comment {
   .title {
     border-bottom: 2px solid #c20c0c;
@@ -567,7 +580,6 @@ export default {
 .reply {
   border: 1px solid #dedede;
   display: flex;
-  width: 624px;
   padding: 15px;
   background-color: #f4f4f4;
   .reply_name {

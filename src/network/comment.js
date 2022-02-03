@@ -30,3 +30,11 @@ export function mvComment (params) {
     params
   })
 }
+
+// 电台节目评论
+export function djComment (params) {
+  return request({
+    url: `/comment/dj?timestamp=${new Date().valueOf()}`,
+    params
+  })
+}

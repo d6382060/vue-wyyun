@@ -22,10 +22,6 @@
         </div>
         <!-- 评论 -->
         <comment
-          ref="commentRef"
-          @giveaLike="giveaLike"
-          @replyCommentContent="replyCommentContent"
-          @commentContent="commentContent"
           :playId="mvId"
           :commentType="1"
           @Page="Page"
@@ -53,7 +49,7 @@ import { mvComment } from '@/network/comment'
 import { mvUrl, detailmv, mvDetailInfo, mvSimi } from '@/network/mv'
 import { reactive, ref } from '@vue/reactivity'
 import { useRoute } from 'vue-router'
-import { onMounted } from '@vue/runtime-core'
+import { onMounted, provide } from '@vue/runtime-core'
 import VideoPlay from '../../components/common/VideoPlay/VideoPlay.vue'
 import Comment from '../../components/common/comment/comment.vue'
 import MvRecommended from './ChildComp/MvRecommended.vue'
@@ -128,31 +124,13 @@ export default {
 
       }
     }
+    // provide 数据给 评论组件 
+    provide('updataComment', getMvComment)
     // 切换 页码
     const Page = (currentPage1) => {
       songCommentPrams.offset = (currentPage1 - 1) * 20;
       getMvComment()
     }
-    // 发送评论
-    const commentContent = () => {
-      setTimeout(() => {
-        getMvComment()
-      }, 2000);
-    }
-    // 回复评论
-    const replyCommentContent = () => {
-      setTimeout(() => {
-        getMvComment()
-      }, 2000);
-    }
-
-    // 点赞
-    const giveaLike = () => {
-      setTimeout(() => {
-        getMvComment()
-      }, 2000);
-    }
-
     let mvs = ref([])
     // 相似MV
     const getSimiMv = async () => {
@@ -170,9 +148,6 @@ export default {
     return {
       mvId,
       Page,
-      giveaLike,
-      replyCommentContent,
-      commentContent,
       mvDetailData,
       mvUrldata,
       mvInfo,

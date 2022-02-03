@@ -34,3 +34,24 @@ export function hotDjRadio (params) {
     params
   })
 }
+
+//电台 - 详情
+export function detailDj (id) {
+  return request({
+    url: `/dj/detail?rid=${id}`,
+  })
+}
+// 电台 - 节目
+export function programlDj (params) {
+  return request({
+    url: `/dj/program`,
+    params
+  })
+}
+
+// 电台 - 节目详情
+export function djProgramlDetail (id) {
+  return request({
+    url: `/dj/program/detail?id=${id}`,
+  })
+}

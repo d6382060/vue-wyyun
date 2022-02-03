@@ -53,8 +53,8 @@ export default {
     })
 
     // 跳转
-    const replaylist = (id) => {
-      emit('replaylist', id)
+    const replaylist = (item) => {
+      emit('replaylist', item.id)
     }
     const toUser = (id) => {
       router.push({ path: '/user/home', query: { id } })
