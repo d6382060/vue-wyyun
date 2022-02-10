@@ -4,11 +4,37 @@
 :joy:  感觉写的很乱，功能虽已实现，但是代码还是有待优化，hhhh~
 
 
+
 #### 安装教程
 1、clone下vue代码后，安装依赖 npm install ，运行服务npm run serve 
 
 2、clone网易云音乐NodeJs代码后，安装依赖 npm install ，运行服务node app.js
 
+## 本项目安装
+
+```shell
+$ git git@github.com:d6382060/vue-wyyun.git 
+
+$ npm install
+```
+或者
+
+```shell
+$ git clone https://github.com/d6382060/vue-wyyun.git
+
+$ npm install
+```
+
+## NodeJs接口安装
+
+[网易云音乐 NodeJS 版 API](https://binaryify.github.io/NeteaseCloudMusicApi/#/)
+
+或
+```shell
+$ git clone https://github.com/Binaryify/NeteaseCloudMusicApi.git
+
+$ npm install
+```
 #### 注意
 使接口时，请查看当前端口是否存在冲突，如存在冲突请修改端口号重启服务。
 
