@@ -2,7 +2,7 @@ import axios from 'axios';
 export function request (config) {
   // 1.创建axios 的实例
   const instance = axios.create({
-    baseURL: 'http://localhost:3000/',
+    baseURL: process.env.VUE_APP_BASE_API,
     timeout: 5000,
     withCredentials: true
   })

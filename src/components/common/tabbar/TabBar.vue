@@ -12,10 +12,13 @@ export default {
 }
 </script>
 
-<style>
+<style lang='scss'>
 .w {
   height: 70px;
   width: 100%;
   background-color: #242424;
+  #tab-bar {
+    height: 70px;
+  }
 }
 </style>

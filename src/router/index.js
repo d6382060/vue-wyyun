@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import { ElMessage } from 'element-plus'
 const Home = () => import('../views/home/Home')
 const MyMusic = () => import('../views/mymusic/MyMusic');
@@ -216,7 +216,7 @@ const routes = [
 
 ]
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHashHistory(),
   routes
 })
 router.beforeEach((to, from, next) => {

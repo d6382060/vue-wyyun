@@ -26,12 +26,14 @@
           >
             <el-form-item label="手机号" prop="phone">
               <el-input
+                :input-style="{ height: 40 + 'px' }"
                 placeholder="请输入网易云帐号登录"
                 v-model="loginData.phone"
               ></el-input>
             </el-form-item>
             <el-form-item label="密码" prop="pwd">
               <el-input
+                :input-style="{ height: 40 + 'px' }"
                 placeholder="请输入密码"
                 v-model="loginData.pwd"
                 type="password"

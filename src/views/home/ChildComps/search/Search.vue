@@ -171,8 +171,10 @@ export default {
   width: 220px;
   input {
     border-radius: 4px 0 0 4px;
+    height: 40px;
   }
 }
+
 .el-popover__title {
   font-weight: 700;
 }
