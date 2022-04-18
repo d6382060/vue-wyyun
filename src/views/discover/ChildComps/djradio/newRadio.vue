@@ -7,11 +7,11 @@
     </div>
     <ul class="list">
       <li v-for="(item, index) in djRadios" :key="item.id" class="item">
-        <a class="img" :href="'/djradio?id=' + item.id">
+        <a class="img" :href="'#/djradio?id=' + item.id">
           <img :src="item.intervenePicUrl + '?param=200y200'" alt="" />
         </a>
         <h3 class="dj_name">
-          <a :href="'/djradio?id=' + item.id">{{ item.name }}</a>
+          <a :href="'#/djradio?id=' + item.id">{{ item.name }}</a>
         </h3>
         <p class="des">{{ item.rcmdtext }}</p>
       </li>

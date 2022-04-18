@@ -10,11 +10,13 @@
       </div>
       <div class="mv_des">
         <p style="height: 20px" class="ovf">
-          <a style="color: #000" :href="'mv?id=' + item.id">{{ item.name }}</a>
+          <a style="color: #000" :href="'#/mv?id=' + item.id">{{
+            item.name
+          }}</a>
         </p>
         <p style="height: 20px; color: #999">{{ dateInt(item.duration) }}</p>
         <p style="height: 17px; color: #999" class="ovf">
-          <a style="color: #999" :href="'artist?id=' + item.artistId">{{
+          <a style="color: #999" :href="'#/artist?id=' + item.artistId">{{
             item.artistName
           }}</a>
         </p>

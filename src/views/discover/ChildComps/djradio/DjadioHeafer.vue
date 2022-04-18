@@ -13,7 +13,7 @@
           <img :src="detail.dj?.avatarUrl" alt="" />
         </div>
         <div class="name">
-          <a :href="'/user/home?id=' + detail.dj?.userId">{{
+          <a :href="'#/user/home?id=' + detail.dj?.userId">{{
             detail.dj?.nickname
           }}</a>
         </div>
@@ -29,7 +29,7 @@
         <el-tag type="success">{{ detail.tags }}</el-tag>
       </div>
       <div class="album-desc-more">
-        <a :href="'/discover/djradio/category?id=' + detail.categoryId">{{
+        <a :href="'#/discover/djradio/category?id=' + detail.categoryId">{{
           detail.category
         }}</a>
         <div class="detailed-desc">

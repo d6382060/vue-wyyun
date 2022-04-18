@@ -17,7 +17,7 @@
         </p>
         <p v-if="item.picUrl" class="artist ovf">
           <span>by</span>
-          <a :href="'/user/home?id=' + item.dj.userId">{{
+          <a :href="'#/user/home?id=' + item.dj.userId">{{
             item.dj.nickname
           }}</a>
         </p>

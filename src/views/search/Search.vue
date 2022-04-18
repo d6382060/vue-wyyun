@@ -29,15 +29,15 @@
         <div class="album">
           <div v-for="item in musicInfo.album" class="album_item">
             <div class="img">
-              <a :href="'/album?id=' + item.id">
+              <a :href="'#/album?id=' + item.id">
                 <img :src="item.blurPicUrl" alt="" :title="item.name" />
               </a>
             </div>
             <div class="music_name">
-              <a :href="'/album?id=' + item.id">{{ item.name }}</a>
+              <a :href="'#/album?id=' + item.id">{{ item.name }}</a>
             </div>
             <div class="singer_name">
-              <a :href="'/artist?id=' + item.artist.id">
+              <a :href="'#/artist?id=' + item.artist.id">
                 {{ item.artist.name }}</a
               >
             </div>

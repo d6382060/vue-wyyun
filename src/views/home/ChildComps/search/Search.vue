@@ -38,7 +38,7 @@
               v-for="item in musicInfo.single"
               class="delite-list"
             >
-              <a :href="'/song?id=' + item.id"
+              <a :href="'#/song?id=' + item.id"
                 >{{ item.name }}-{{
                   item.ar.length === 1
                     ? item.ar[0].name
@@ -52,7 +52,7 @@
           <h4 class="delite-title">歌手</h4>
           <ul>
             <li class="delite-list">
-              <a :href="'/artist?id=' + musicInfo.singer.id">
+              <a :href="'#/artist?id=' + musicInfo.singer.id">
                 {{ musicInfo.singer.name }}
               </a>
             </li>
@@ -62,7 +62,7 @@
           <h4 class="delite-title">专辑</h4>
           <ul>
             <li v-for="item in musicInfo.album" class="delite-list">
-              <a :href="'/album?id=' + item.id">{{ item.name }}</a>
+              <a :href="'#/album?id=' + item.id">{{ item.name }}</a>
             </li>
           </ul>
         </div>
@@ -70,7 +70,7 @@
           <h4 class="delite-title">歌单</h4>
           <ul>
             <li v-for="item in musicInfo.playlist" class="delite-list">
-              <a :href="'/playlist/detail?id=' + item.id">{{ item.name }}</a>
+              <a :href="'#/playlist/detail?id=' + item.id">{{ item.name }}</a>
             </li>
           </ul>
         </div>

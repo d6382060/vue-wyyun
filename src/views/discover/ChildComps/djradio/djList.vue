@@ -7,7 +7,7 @@
       <div @click="sortClick" class="btn">
         <a
           class="more1"
-          :href="'/discover/djradio/category?id=' + djRadios[0]?.categoryId"
+          :href="'#/discover/djradio/category?id=' + djRadios[0]?.categoryId"
         >
           <slot name="more1"></slot>
         </a>

@@ -24,14 +24,14 @@
         <li v-for="(item, index) in rzartist" :key="item.id" class="item">
           <div class="img">
             <img :src="item.picUrl + '?param=130y130'" alt="" />
-            <a class="msk" :href="'/artist?id=' + item.id"></a>
+            <a class="msk" :href="'#/artist?id=' + item.id"></a>
           </div>
           <p>
-            <a class="ovf" :href="'/artist?id=' + item.id">{{ item.name }}</a>
+            <a class="ovf" :href="'#/artist?id=' + item.id">{{ item.name }}</a>
             <a
               v-if="item.accountId"
               class="grzx"
-              :href="'/user/home?id=' + item.accountId"
+              :href="'#/user/home?id=' + item.accountId"
             >
               <i title="个人中心" class="iconfont icon-wode"></i
             ></a>
@@ -50,14 +50,14 @@
         <li v-for="(item, index) in rmSinger.slice(0, 10)" class="item">
           <div class="img">
             <img :src="item.picUrl + '?param=130y130'" alt="" />
-            <a class="msk" :href="'/artist?id=' + item.id"></a>
+            <a class="msk" :href="'#/artist?id=' + item.id"></a>
           </div>
           <p>
-            <a class="ovf" :href="'/artist?id=' + item.id">{{ item.name }}</a>
+            <a class="ovf" :href="'#/artist?id=' + item.id">{{ item.name }}</a>
             <a
               v-if="item.accountId"
               class="grzx"
-              :href="'/user/home?id=' + item.accountId"
+              :href="'#/user/home?id=' + item.accountId"
             >
               <i title="个人中心" class="iconfont icon-wode"></i
             ></a>

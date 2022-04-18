@@ -28,7 +28,7 @@
       >
         <a
           class="all_btn"
-          :href="'/djradio?id=' + djProgramData.headeInfo.radio?.id"
+          :href="'#/djradio?id=' + djProgramData.headeInfo.radio?.id"
           >全部</a
         >
       </aside-list>

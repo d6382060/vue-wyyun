@@ -13,7 +13,7 @@
     </div>
     <div class="cnt">
       <h4 class="tit">
-        <a class="name" :href="'/artist?id=' + item.id">{{ item.name }}</a>
+        <a class="name" :href="'#/artist?id=' + item.id">{{ item.name }}</a>
         <span class="f">{{ item.trans }}</span>
       </h4>
       <p class="de">

@@ -4,7 +4,7 @@
       <div class="mv_img">
         <img :src="item.imgurl" alt="" />
         <a class="icon-play iconfont icon-bofang1" href="javascript:;"></a>
-        <a class="msk" :href="'/mv?id=' + item.id"></a>
+        <a class="msk" :href="'#/mv?id=' + item.id"></a>
       </div>
       <p @click="toMv(item.id)" :title="item.name" class="des ovf">
         {{ item.name }}

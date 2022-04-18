@@ -15,7 +15,7 @@
             alt=""
           />
           <p>
-            <a :title="item.name" :href="'/album?id=' + item.id">{{
+            <a :title="item.name" :href="'#/album?id=' + item.id">{{
               item.name
             }}</a>
           </p>
@@ -36,7 +36,7 @@
             alt=""
           />
           <p>
-            <a :title="item.name" :href="'/album?id=' + item.id">{{
+            <a :title="item.name" :href="'#/album?id=' + item.id">{{
               item.name
             }}</a>
           </p>

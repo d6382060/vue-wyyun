@@ -13,7 +13,7 @@
           <img :src="creator.avatarUrl + '?param=200y200'" alt="" />
         </div>
         <div class="name">
-          <a :href="'/user/home?id=' + creator.userId">{{
+          <a :href="'#/user/home?id=' + creator.userId">{{
             creator.nickname
           }}</a>
         </div>

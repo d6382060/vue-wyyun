@@ -35,7 +35,7 @@ export default {
         programsData.programs = res.programs
       }
       let data = await programTopList()
-      if (data.code == 200) {
+      if (data?.code == 200) {
         programsData.toplist = data.toplist
       }
     }

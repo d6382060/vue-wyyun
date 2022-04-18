@@ -10,7 +10,7 @@
       </div>
       <div class="user-info">
         <div class="name">
-          <a :href="'/djradio?id=' + headeInfo.radio?.id"
+          <a :href="'#/djradio?id=' + headeInfo.radio?.id"
             ><p class="ovf">
               <i class="iconfont icon-music"></i>{{ headeInfo.dj?.brand }}
             </p></a
@@ -35,7 +35,7 @@
     </div>
   </div>
   <div class="album-desc-more">
-    <a :href="'/discover/djradio/category?id=' + headeInfo.categoryId">
+    <a :href="'#/discover/djradio/category?id=' + headeInfo.categoryId">
       {{ headeInfo.categoryName }}
     </a>
     <div class="detailed-desc">

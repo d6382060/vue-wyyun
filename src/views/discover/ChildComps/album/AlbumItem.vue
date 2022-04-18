@@ -14,7 +14,7 @@
           <a @click="toalbum(item.id)" class="name ovf" href="javascript:;">{{
             item.name
           }}</a>
-          <a class="singer" :href="'/artist?id=' + item.artists[0].id">{{
+          <a class="singer" :href="'#/artist?id=' + item.artists[0].id">{{
             item.artists[0].name
           }}</a>
         </div>

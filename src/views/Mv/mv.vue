@@ -8,7 +8,7 @@
             {{ mvDetailData.name }}
           </h2>
           <div class="singer">
-            <a :href="'/artist?id=' + mvDetailData.artistId">{{
+            <a :href="'#/artist?id=' + mvDetailData.artistId">{{
               mvDetailData.artistName
             }}</a>
           </div>

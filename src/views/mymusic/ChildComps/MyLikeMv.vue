@@ -12,15 +12,15 @@
           <i class="iconfont icon-shipin"></i>
           {{ item.playTime > 100000 ? num(item.playTime) : item.playTime }}
         </p>
-        <a :href="'/mv?id=' + item.vid" class="msk">66</a>
+        <a :href="'#/mv?id=' + item.vid" class="msk">66</a>
         <p class="time">00:00</p>
       </div>
       <h4 class="ovf">
         <i class="iconfont icon-MV"></i>
-        <a :href="'/mv?id=' + item.vid">{{ item.title }}</a>
+        <a :href="'#/mv?id=' + item.vid">{{ item.title }}</a>
       </h4>
       <h5>
-        <a :href="'/artist?id=' + item.creator[0].userId">{{
+        <a :href="'#/artist?id=' + item.creator[0].userId">{{
           item.creator && item.creator[0].userName
         }}</a>
       </h5>
