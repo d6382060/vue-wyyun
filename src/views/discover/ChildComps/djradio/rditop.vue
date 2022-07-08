@@ -14,6 +14,7 @@
           v-for="(item, index) in programs.programs"
           :key="item.id"
           class="item itm"
+
         >
           <a class="img" href="javascript:;">
             <a class="msk" href="javascript:;">
@@ -22,7 +23,7 @@
             <img :src="item.coverUrl + '?param=40x40'" alt="" />
           </a>
           <div class="desc">
-            <h3 class="ovf">
+            <h3 class="ovf"  @click="goTo(item.id)">
               <a href="javascript:;">
                 {{ item.name }}
               </a>
@@ -91,7 +92,7 @@
             <img :src="item.program.coverUrl + '?param=40x40'" alt="" />
           </a>
           <div class="desc">
-            <h3 class="ovf">
+            <h3 class="ovf"  @click="goTo(item.program.id)">
               <a href="javascript:;">
                 {{ item.program.name }}
               </a>
@@ -107,6 +108,7 @@
 </template>
 
 <script>
+import {useRouter} from 'vue-router'
 export default {
   name: 'rditop',
   props: {
@@ -115,6 +117,16 @@ export default {
       default () {
         return {}
       }
+    }
+  },
+  setup(delta){
+const router = useRouter()
+    const goTo = (id)=>{
+      router.push({ path: "/program", query: { id } } )
+      console.log('点击',router)
+    }
+    return {
+      goTo
     }
   }
 }

@@ -9,7 +9,8 @@
   </div>
   <div class="song_list_com">
     <ul>
-      <li v-for="(item, index) in hotsongs" class="list_item">
+      <template v-for="(item, index) in hotsongs">
+      <li v-if="item.name !== null" class="list_item">
         <span class="item_index">{{ item.serialNum || index + 1 }}</span>
         <i @click="playsong(item, index)" class="iconfont icon-bofang1"></i>
         <div class="item_name">
@@ -45,6 +46,7 @@
           }}</span>
         </a>
       </li>
+      </template>
     </ul>
     <div v-if="hotsongs.length == 0">暂无歌曲!!</div>
   </div>
@@ -53,6 +55,7 @@
 <script>
 import { ElMessage } from 'element-plus'
 import { useRouter, useRoute } from 'vue-router'
+import {isMusic} from "network/home";
 export default {
   name: "SongList",
   emits: ['playsong'],
@@ -72,7 +75,8 @@ export default {
   setup (props, { emit }) {
     const route = useRoute()
     const router = useRouter();
-    const playsong = (row, index) => {
+    const playsong =async  (row, index) => {
+
       if (row.fee === 4) {
         ElMessage({
           message: '此专辑为数字专辑，请前往网易云购买',
@@ -80,13 +84,16 @@ export default {
         })
         return
       }
-      if (row.st === -1) {
+     let st =  await isMusic(row.id)
+
+      if (!st) {
         ElMessage({
-          message: '由于版权保护，您所在的地区暂时无法使用。',
+          message: '亲爱的，暂无版权！',
           type: 'warning',
         })
         return
       }
+      console.log(st)
       emit('playsong', row, index)
     }
     // 跳转单曲详情

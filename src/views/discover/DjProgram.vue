@@ -6,8 +6,8 @@
         :headeInfo="djProgramData.headeInfo"
         tag="电台节目"
       />
-      <!-- 评论 -->
-      <!-- 评论 -->
+<!-- 歌曲列表-->
+      <SongList @playsong="playsong" v-if="djProgramData.headeInfo.songs?.length !==0" :size="djProgramData.headeInfo.songs?.length" :hotsongs="djProgramData.headeInfo.songs"/>
       <!-- 评论 -->
       <comment
         ref="commentRef"
@@ -40,6 +40,7 @@
 <script>
 import { djComment } from '@/network/comment'
 import { djProgramlDetail, programlDj } from '@/network/dj'
+import SongList from "../../components/common/song_list/SongList.vue";
 import ProgramHeade from './ChildComps/djradio/ProgramHeade.vue'
 import AsideList from './ChildComps/djradio/AsideList.vue'
 import LayoutAside from '../../components/common/layout/LayoutAside.vue'
@@ -52,12 +53,13 @@ import Comment from '../../components/common/comment/comment.vue'
 import PlayBar from '../../components/common/play-bar/playBar.vue'
 import { useStore } from 'vuex'
 export default {
-  components: { Layout, LayoutMain, LayoutAside, ProgramHeade, Comment, PlayBar, AsideList },
+  components: { Layout, LayoutMain, LayoutAside, ProgramHeade, Comment, PlayBar, AsideList,SongList },
   name: "DjProgram",
   setup (props) {
     const router = useRouter()
     const store = useStore()
     const route = useRoute()
+
     // 获取 电台节目 ID
     let djProgramId = ref(route.query.id)
     watch(route, () => {
@@ -74,6 +76,7 @@ export default {
     })
     const getdjProgramData = async () => {
       let { code, program } = await djProgramlDetail(djProgramId.value);
+      console.log(program)
       if (code === 200) {
         djProgramData.headeInfo = program
       }
@@ -130,6 +133,21 @@ export default {
       console.log('播放');
       store.dispatch('getSongUrls', djProgramData.headeInfo.mainSong)
     }
+    const playsong = (row, Clickindex) => {
+
+      console.log(row);
+      store.dispatch('getSongUrls', row)
+
+      if (play_list.value.length === djProgramData.headeInfo.songs.length) {
+        ply_num.value.url_index = Clickindex
+      }
+
+      play_list.value.some((item, index) => {
+        if (item.row_id === row.id) {
+          ply_num.value.url_index = index
+        }
+      });
+    }
 
     const toprogram = (id) => {
       router.replace({ path: "program", query: { id } })
@@ -148,6 +166,7 @@ export default {
       djProgramId,
       replyCommentContent,
       allplay,
+      playsong,
       url,
       play_list,
       ply_num
