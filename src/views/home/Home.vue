@@ -1,4 +1,5 @@
 <template>
+ 
   <div id="home">
     <!-- 轮播 -->
     <home-carousel class="home-car" />
